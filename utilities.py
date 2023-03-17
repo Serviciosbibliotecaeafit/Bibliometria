@@ -3,7 +3,8 @@ import numpy as np
 from nameparser import HumanName
 from nameparser.config import CONSTANTS
 
-# Functions
+# Funciones
+## Renombrar las columnas de un DataFrame
 def Rename_Columns(data, dictionary) -> pd.DataFrame:
     newColumns = {}
     for index in data.columns.values:
@@ -14,6 +15,12 @@ def Rename_Columns(data, dictionary) -> pd.DataFrame:
     
     return data.rename(columns=newColumns)
 
+## Renombrar las columnas de un array de DataFrame's
+def Rename_Columns_array(data, dictionaries):
+    for i in range(len(data)):
+        data[i] = Rename_Columns(data[i],dictionaries[i])
+
+## Plantilla del consolidado
 def Plantilla() -> dict:
     plantilla = {}
 
@@ -38,6 +45,7 @@ def Plantilla() -> dict:
     
     return plantilla, headers
 
+## Unificación de DataFrames
 def Unify(data, dataBasesArray) -> dict:
     unified_data, headers = Plantilla()
     
@@ -61,10 +69,7 @@ def Unify(data, dataBasesArray) -> dict:
     
     return unified_data
 
-def Rename_Columns_array(data, dictionaries):
-    for i in range(len(data)):
-        data[i] = Rename_Columns(data[i],dictionaries[i])
-
+## Normalización de Autores usando nameparser
 def Normalize_Authors(data, dataBases):
     """
         Lens:   Nombre Apellido ; -> Apellido, Nombre ;
@@ -73,17 +78,18 @@ def Normalize_Authors(data, dataBases):
         Wos:    Apellido, Nombre ; -> Apellido, Nombre ;
     """
     switch ={
-        'LENS': Normalize_Lens,
-        'SCIELO': Normalize_Scielo,
-        'SCOPUS': Normalize_Scopus,
-        'WOS': Normalize_Wos
+        'LENS': Normalize_Authors_Lens,
+        'SCIELO': Normalize_Authors_Scielo,
+        'SCOPUS': Normalize_Authors_Scopus,
+        'WOS': Normalize_Authors_Wos
     }
 
     for dataBaseNum in range(len(data)):
         normalization_case = switch.get(dataBases[dataBaseNum], Base_Not_Found)
         normalization_case(data[dataBaseNum])
 
-def Normalize_Lens(dataBase):
+### Procesos de normalización por base de datos
+def Normalize_Authors_Lens(dataBase):
     CONSTANTS.string_format = "{first} {middle} {last}"
     for index in dataBase.index.values:
         author_list = dataBase.Autores.values[index].split(';')
@@ -100,7 +106,7 @@ def Normalize_Lens(dataBase):
         
         dataBase.Autores.values[index] = '; '.join(normalized_authors)
 
-def Normalize_Scielo(dataBase):
+def Normalize_Authors_Scielo(dataBase):
     CONSTANTS.string_format = "{last}, {first} {middle}"
     for index in dataBase.index.values:
         lst = dataBase.Autores.values[index].split(',')
@@ -118,7 +124,7 @@ def Normalize_Scielo(dataBase):
         
         dataBase.Autores.values[index] = '; '.join(normalized_authors)
 
-def Normalize_Scopus(dataBase):
+def Normalize_Authors_Scopus(dataBase):
     CONSTANTS.string_format = "{last} {first}.{middle}."
     for index in dataBase.index.values:
         author_list = dataBase.Autores.values[index].split(',')
@@ -135,21 +141,97 @@ def Normalize_Scopus(dataBase):
         
         dataBase.Autores.values[index] = '; '.join(normalized_authors)
 
-def Normalize_Wos(dataBase):
+def Normalize_Authors_Wos(dataBase):
     pass
 
 def Base_Not_Found(dataBase):
     raise IndexError('Base de datos no encontrada.')
 
+# ## Normalización de Nombre_Publicación
+# def Normalize_Nombre_Publicacion(data, dataBases):
+#     """
+#         Lens:   Nombre Apellido ; -> Apellido, Nombre ;
+#         Scielo: Nombre Apellido , -> Apellido, Nombre ;
+#         Scopus: Apellido Nombre , -> Apellido, Nombre ;
+#         Wos:    Apellido, Nombre ; -> Apellido, Nombre ;
+#     """
+#     switch ={
+#         'LENS': Normalize_Nombre_Publicacion_Lens,
+#         'SCIELO': Normalize_Nombre_Publicacion_Scielo,
+#         'SCOPUS': Normalize_Nombre_Publicacion_Scopus,
+#         'WOS': Normalize_Nombre_Publicacion_Wos
+#     }
+
+#     for dataBaseNum in range(len(data)):
+#         normalization_case = switch.get(dataBases[dataBaseNum], Base_Not_Found)
+#         normalization_case(data[dataBaseNum])
+
+# ### Normalización de Nombre_Publicación por base de datos
+# def Normalize_Nombre_Publicacion_Lens(dataBase):
+#     pass
+
+# def Normalize_Nombre_Publicacion_Scielo(dataBase):
+#     pass
+
+# def Normalize_Nombre_Publicacion_Scopus(dataBase):
+#     for index in dataBase.index.values:
+#         Nombre_Publicacion = dataBase.Nombre_Publicación.values[index]
+#         dataBase.Nombre_Publicación.values[index] = ""
+#         for element in Nombre_Publicacion:
+#             dataBase.Nombre_Publicación.values[index] += element
+#             if element != Nombre_Publicacion[-1]:
+#                 dataBase.Nombre_Publicación.values[index] += ", "
+#                 continue
+#             dataBase.Nombre_Publicación.values[index] += ", y "
+
+# def Normalize_Nombre_Publicacion_Wos(dataBase):
+    pass
+
+## Normalización de Tipo_Documento
+def Normalize_Tipo_Documento(dataBase):
+    """
+        Opciones:
+            - Article
+            - Book Chapter
+            - Proceedings Paper
+            - Review
+        Si está vacío se clasifica como Article
+    """
+    Tipos_Documentos = [
+        "Article",
+        "Book Chapter",
+        "Proceedings Paper",
+        "Review",
+    ]
+    for index in dataBase.index.values:
+        try:
+            Tipo_Documento = dataBase.Tipo_Documento.values[index]
+            #print(Tipo_Documento)
+            for clase in Tipos_Documentos:
+                if clase.upper() in Tipo_Documento.upper():
+                    dataBase.Tipo_Documento.values[index] = clase
+                    break
+        except:
+            dataBase.Tipo_Documento.values[index] = Tipos_Documentos[0]
+
+## Proceso completo de normalización y unificación
 def full_Process(data, dataBases, dictionaries) -> pd.DataFrame:
 
+    print('Renombrando columnas ...')
     Rename_Columns_array(data, dictionaries)
-
+    print('Normalizando Autores ...')
     Normalize_Authors(data, dataBases)
+    # print('Normalizando Nombre_Publicación ...')
+    # Normalize_Nombre_Publicacion(data, dataBases)
+    print('Unificando ...')
+    unified = pd.DataFrame(Unify(data, dataBases))
+    print('Normalizando Tipo_Documento ...')
+    Normalize_Tipo_Documento(unified)
+    return unified
 
-    return pd.DataFrame(Unify(data, dataBases))
 
-# Dictionaries with translations of the dataFrame columns
+
+# Diccionarios con traducciones de las columnas de los dataFrame's
 def Lens_Dictionary(lang='en') -> dict:
     lens_dict_en = {
         #'Lens ID'
@@ -263,7 +345,7 @@ def Scopus_Dictionary() -> dict:
         #'Authors with affiliations' : '' # No estoy seguro
         'Abstract'  :   'Resumen',
         'References'    :   'Referencias_Citadas',
-        'Publisher' :   'Nombre_Publicación',    # No estoy seguro
+        #'Publisher' :   'Nombre_Publicación',    # No estoy seguro
         'Language of Original Document' :   'Idioma',
         #''         :   'Tipo_Documento',
         #''         :   'País_Filiación_Autor',
