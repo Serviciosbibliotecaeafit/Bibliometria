@@ -1,7 +1,16 @@
 import pandas as pd
 import numpy as np
+import urllib.request
+import requests
 from nameparser import HumanName
 from nameparser.config import CONSTANTS
+
+# Estetica
+from tqdm.notebook import tqdm, trange
+
+# Local
+import web_methods as wm
+import time
 
 # Funciones
 ## Renombrar las columnas de un DataFrame
@@ -17,8 +26,10 @@ def Rename_Columns(data, dictionary) -> pd.DataFrame:
 
 ## Renombrar las columnas de un array de DataFrame's
 def Rename_Columns_array(data, dictionaries):
-    for i in range(len(data)):
+    bar = tqdm(range(len(data)))
+    for i in bar:
         data[i] = Rename_Columns(data[i],dictionaries[i])
+        bar.set_description('Renombrando columnas ....')
 
 ## Plantilla del consolidado
 def Plantilla() -> dict:
@@ -38,7 +49,7 @@ def Plantilla() -> dict:
             'Año',
             'Volumen',
             'Número',
-            'DOI/Enlace_texto_completo']
+            'DOI_Enlace_texto_completo']
     
     for head in headers:
         plantilla[head] = []
@@ -46,17 +57,17 @@ def Plantilla() -> dict:
     return plantilla, headers
 
 ## Unificación de DataFrames
-def Unify(data, dataBasesArray) -> dict:
+def Unify(data) -> dict:
     unified_data, headers = Plantilla()
-    
-    for dataBaseNum in range(len(data)):
+    bar = tqdm(range(len(data)))
+    for dataBaseNum in bar:
         dataBase = data[dataBaseNum]
         headers_data = dataBase.columns.values
 
         for index in dataBase.index.values:
             
             for head in headers:
-                if head == 'DOI/Enlace_texto_completo':
+                if head == 'DOI_Enlace_texto_completo':
                     try:
                         unified_data[head].append(dataBase.iloc[[index]]['DOI'].values[0])
                     except KeyError:
@@ -66,7 +77,7 @@ def Unify(data, dataBasesArray) -> dict:
                         unified_data[head].append(dataBase.iloc[[index]][head].values[0])
                     except KeyError:
                         unified_data[head].append(np.NaN)
-    
+        bar.set_description('Unificando ...')
     return unified_data
 
 ## Normalización de Autores usando nameparser
@@ -83,10 +94,11 @@ def Normalize_Authors(data, dataBases):
         'SCOPUS': Normalize_Authors_Scopus,
         'WOS': Normalize_Authors_Wos
     }
-
-    for dataBaseNum in range(len(data)):
+    bar = tqdm(range(len(data)))
+    for dataBaseNum in bar:
         normalization_case = switch.get(dataBases[dataBaseNum], Base_Not_Found)
         normalization_case(data[dataBaseNum])
+        bar.set_description('Normalizando Autores ...')
 
 ### Procesos de normalización por base de datos
 def Normalize_Authors_Lens(dataBase):
@@ -187,7 +199,7 @@ def Base_Not_Found(dataBase):
 # def Normalize_Nombre_Publicacion_Wos(dataBase):
     pass
 
-## Normalización de Tipo_Documento
+'''## Normalización de Tipo_Documento
 def Normalize_Tipo_Documento(dataBase):
     """
         Opciones:
@@ -214,19 +226,93 @@ def Normalize_Tipo_Documento(dataBase):
         except:
             dataBase.Tipo_Documento.values[index] = Tipos_Documentos[0]
 
+## Obtención de datos con doi
+def Obtain_with_doi(doi):
+    url = 'https://doi.org/' + urllib.request.quote(doi)
+    header = {'Accept': 'application/x-bibtex'}
+    response = requests.get(url, headers=header)
+    return response.text
+
+## Dato del doi
+def Return_from_response(data):
+    data_dict = {}
+    for text in data.split(',\n\t'):
+        if text[0] == '@':
+            data_dict['type'] = text[1:text.find('{')]
+            continue
+
+        object = text[0:text.find(' = ')]
+        input = object + ' = '
+        start = text.find(input) + len(input)
+        result = text[start:-1]
+
+        replacements = {
+            "{\\'{a}}" : "á",
+            "{\\'{e}}" : "é",
+            "{\\'{i}}" : "í",
+            "{\\'{o}}" : "ó",
+            "{\\'{u}}" : "ú",
+            "\n"       : "",
+            "\t"       : "",
+        }
+        
+        for key, value in replacements.items():
+            result = result.replace(key, value)
+
+        if (result[0] == '{' and result[-1] == '}'):
+            result = result[1:-1]
+        
+        data_dict[object] = result
+    
+    return data_dict
+
+## Unir los datos del doi con el unificado
+def Full_with_doi(dataBase):
+    eng_template = {
+        #'Autores',
+        #'Titulo'    :   'title',
+        'Nombre_Publicación'    :   'journal',
+        'Tipo_Documento'    :   'type',
+        'Idioma'    :   'language',
+        'Resumen'   :   'abstract',
+        #'Filiación_Autor',
+        #'Referencias_Citadas',
+        #'Total_Citas'
+        #'País_Filiación_Autor',
+        'Año'   :   'year',
+        'Volumen'   :   'volume',
+        'Número'    :   'number',
+        #'DOI_Enlace_texto_completo'
+    }
+    bar = tqdm(dataBase.index.values)
+    for index in bar:
+        doi = dataBase.DOI_Enlace_texto_completo.values[index]
+        try:
+            if doi[0:2] == '10':
+                web_data = Obtain_with_doi(doi)
+                data_dict = Return_from_response(web_data)
+                for key, value in eng_template.items():
+
+                    try:
+                        dataBase[key].values[index] = data_dict[value]
+                    except:
+                        continue
+        except:
+            #print(index)
+            #print('\t' + str(doi))
+            pass    
+        bar.set_description('Normalizando con DOI ...')
+'''
+
+
 ## Proceso completo de normalización y unificación
 def full_Process(data, dataBases, dictionaries) -> pd.DataFrame:
 
-    print('Renombrando columnas ...')
     Rename_Columns_array(data, dictionaries)
-    print('Normalizando Autores ...')
     Normalize_Authors(data, dataBases)
-    # print('Normalizando Nombre_Publicación ...')
-    # Normalize_Nombre_Publicacion(data, dataBases)
-    print('Unificando ...')
-    unified = pd.DataFrame(Unify(data, dataBases))
-    print('Normalizando Tipo_Documento ...')
-    Normalize_Tipo_Documento(unified)
+    unified = pd.DataFrame(Unify(data))
+    print('Tamaño: ' + str(len(unified.index.values)))
+    wm.Full_with_doi(unified)
     return unified
 
 
