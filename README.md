@@ -44,3 +44,7 @@ El proceso para realizar el preregistro es el siguiente:
    3.5 Cuando tenga resaltada la zona correspondiente a su dato o encontró el dato específico en el código, seleccione con el mouse la zona del código o el dato en el código, en las opciones que le aparecieron ponga el mouse sobre la opción `Copiar`, en las nuevas opciones de click donde dice `Copiar XPath Completo` o `Copy Full XPath`.
 
 En el archivo `.json` se puede observar un XPath auxiliar que se puede usar para realizar ubicaciones relativas de algunos datos en la página web, esto puede llegar a ser muy especializado para cada base de datos por lo que habría que acondicionar el proceso realizado por Selenium en comparación al que se realiza actualmente para SCOPUS.
+
+## Fallos
+
+Fallo al usar selenium desde jupyter en navegador, observar `https://cloudbytes.dev/snippets/run-selenium-in-jupyter-notebook-on-wsl2-or-ubuntu``.
