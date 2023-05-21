@@ -8,7 +8,7 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException
 import json
 import pandas as pd
 
-from tqdm.notebook import tqdm
+from tqdm import tqdm
 
 
 def open_nav():
@@ -20,8 +20,11 @@ def log_in(driver, log_url, email, password):
     driver.get(log_url)
     email_box = driver.find_element(By.ID, "bdd-email")
     email_box.send_keys(email)
-    continue_button = driver.find_element(By.ID, "bdd-els-searchBtn")
-    WebDriverWait(driver, timeout=10).until(button_available)
+    continue_button_ID = "bdd-elsPrimaryBtn"
+    continue_button = driver.find_element(By.ID, continue_button_ID)
+    WebDriverWait(driver, timeout=10).until(
+        lambda d: button_available(d, continue_button_ID)
+    )
     continue_button.click()
     password_box = driver.find_element(By.ID, "bdd-password")
     password_box.send_keys(password)
@@ -29,8 +32,8 @@ def log_in(driver, log_url, email, password):
     log_in_button.click()
 
 
-def button_available(driver):
-    return driver.find_element(By.ID, "bdd-els-searchBtn").is_enabled()
+def button_available(driver, button_ID):
+    return driver.find_element(By.ID, button_ID).is_enabled()
 
 
 def obtain_data(urls):
