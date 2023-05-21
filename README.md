@@ -18,6 +18,7 @@ Recolección, normalización y unificación de datos bibliográficos usando un b
     - [*Instalación de Librerias*](#instalación-de-librerias)
     - [*Acceso*](#acceso)
   - [Uso](#uso)
+  - [Futuro](#futuro)
 
 ## Descripciones
 
@@ -143,3 +144,10 @@ Así nos encontramos en la carpeta del repositorio listos para usar el programa.
 ---
 
 Actualmente el programa se usa a través del [script `main.py`](#descripciones), por lo que es necesario crear o mover un archivo `.txt` a la carpeta del programa e modificar en el script `main.py` la variable `url_file_name` con el nombre del nuevo archivo. Para testeo, en el script se puede encontrar el nombre `"test_urls"` referentes al archivo `test_urls.txt` que se encuentra en la carpeta.
+
+
+## Futuro
+
+---
+
+- Diseño y creación de una interfaz de usuario gráfica como aplicación de escritorio, se propone usar [`Electronjs`](https://www.electronjs.org/es/) para esto.
