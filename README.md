@@ -2,8 +2,6 @@
 
 Recolección, normalización y unificación de datos bibliográficos usando un bot para web scraping.
 
-**Nota**: Aquellas librerias, carpetas, archivos, etc. que estén marcados como **(NO EN USO)**, se refiere a que no son usados actualmente en la ejecución del programa pero están disponible para su manipulación en el desarrollo.
-
 **Table of Contents**
 
 - [Bibliometria](#bibliometria)
@@ -26,7 +24,6 @@ Recolección, normalización y unificación de datos bibliográficos usando un b
 
 Descripciones de archivos para el usuario:
 
-- **`main.py`:** Script de ejecución principal encargado de leer un `.txt` con las urls, también ejecuta la función principal para obtener los datos y exporta lo obtenido a formato excel.
 - **`selenium_outputs/BACKUP.csv`:** Archivo de respaldo donde se guardan los últimos datos recolectados por el bot en caso de un paro total.
 - **`selenium_outputs/log.out`:** Archivo de registro del proceso de web scraping donde se muestra el registro de respaldos y de errores presentados.
 - **`test_urls.txt`:** Archivo input de ejemplo para testeo del programa.
@@ -36,6 +33,7 @@ Descripciones de archivos para el usuario:
 
 Descripciones de archivos para devs:
 
+- **`main.py`:** Script de ejecución principal encargado de leer un `.txt` con las urls, también ejecuta la función principal para obtener los datos y exporta lo obtenido a formato excel.
 - **`selenium_methods.py`:** Script con las funciones y algoritmos generales para realizar web scraping mediante la libreria Selenium.
 - **`norm_methods.py`:** Script con las funciones y algoritmos para normalizar los datos obtenidos mediante web-scraping.
 - **`selenium_conf.json`:** Archivo con los datos de logeo y direcciones Xpaths para la extracción de la información.
