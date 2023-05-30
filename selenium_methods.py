@@ -12,10 +12,12 @@ from tqdm import tqdm
 
 
 def open_nav():
+    # Abrimos el navegador
     return webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
 
 def log_in(driver, log_url, email, password):
+    # Logeo a la base de datos usando las credenciales en selenium_conf.json
     print("Logging...")
     driver.get(log_url)
     email_box = driver.find_element(By.ID, "bdd-email")
@@ -33,10 +35,13 @@ def log_in(driver, log_url, email, password):
 
 
 def button_available(driver, button_ID):
+    # Comprobación si un botón está disponible
     return driver.find_element(By.ID, button_ID).is_enabled()
 
 
 def obtain_data(urls):
+    # Obtención de los datos mediante web-scraping
+
     # Credenciales de SCOPUS
     conf_file = open("selenium_conf.json")
     conf_data = json.load(conf_file)
@@ -90,7 +95,7 @@ def obtain_data(urls):
     # Logeamos en SCOPUS
     log_in(driver, log_url, credentials["email"], credentials["password"])
 
-    # Crear log
+    # Creamos registro
     register_log(
         "----------------------------------------------------------------\n\tINICIO DE REGISTRO\n----------------------------------------------------------------\n\n",
         True,
@@ -102,6 +107,7 @@ def obtain_data(urls):
         url = urls[i]
         driver.get(url)
 
+        # Abrimos la pestaña de 'ver más'
         view_more_button = WebDriverWait(driver, timeout=10).until(
             lambda d: d.find_element(By.ID, "show-additional-source-info")
         )
@@ -114,6 +120,7 @@ def obtain_data(urls):
             head = headers[j]
 
             try:
+                # en el caso del dato "Idioma" se hace un caso especial ya que puede variar un poco de posición
                 if head == "Idioma":
                     title_view_more = WebDriverWait(driver, timeout=2).until(
                         lambda d: d.find_element(
@@ -123,27 +130,36 @@ def obtain_data(urls):
                     if title_view_more.text != "Original language":
                         raise TimeoutException
 
+                # Buscamos el elemento conteniendo el dato
                 data_element = WebDriverWait(driver, timeout=2).until(
                     lambda d: d.find_element(By.XPATH, Xpaths[head][xpath_ind])
                 )
+
+                # Tomamos el texto del elemento
                 data = data_element.text
             except TimeoutException:
+                # Excepción cuando no se encuentra el elemento en el tiempo esperado
+
                 if head == "DOI_Enlace_texto_completo":
                     data = url
                 else:
+                    # Iteramos sobre las distintas ubicaciones que puede tener el elemento y que están registradas en el .json
                     if xpath_ind < len(Xpaths[head]) - 1:
                         xpath_ind += 1
                         continue
+                    # No se encontró completamente el elemento
                     print(head + " : " + url)
                     data = "Not Found"
+                    # Registramos el fallo de busqueda
                     register_log(
                         f"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n\tDATO: <{head}> NO ENCONTRADO EN:\n\t {url}\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n\n"
                     )
-
+            # Agregamos el dato al output
             output[head].append(data)
             j += 1
             xpath_ind = 0
         if i % 10 == 0:
+            # Registro de busqueda
             pd.DataFrame(output).to_csv("selenium_outputs/BACKUP.csv")
             register_log(
                 f"|||||||||||||||||||||||||||||||||||||||||\n\tBACKUP REALIZADO\n\tULTIMA URL:\n\t {url}\n|||||||||||||||||||||||||||||||||||||||||\n\n"
@@ -154,6 +170,7 @@ def obtain_data(urls):
 
 
 def register_log(text, first=False):
+    # Función para guardar el registro de funcionamiento del bot
     mode = "a"
     if first:
         mode = "w"

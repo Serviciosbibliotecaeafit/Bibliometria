@@ -9,7 +9,7 @@ from nameparser.config import CONSTANTS
 from tqdm.notebook import tqdm, trange
 
 # Local
-import web_methods as wm
+import not_use.web_methods as wm
 import time
 
 # Funciones
@@ -26,6 +26,7 @@ def Rename_Columns(data, dictionary) -> pd.DataFrame:
 
     return data.rename(columns=newColumns)
 
+
 # Renombrar las columnas de un array de DataFrame's
 
 
@@ -33,7 +34,8 @@ def Rename_Columns_array(data, dictionaries):
     bar = tqdm(range(len(data)))
     for i in bar:
         data[i] = Rename_Columns(data[i], dictionaries[i])
-        bar.set_description('Renombrando columnas ....')
+        bar.set_description("Renombrando columnas ....")
+
 
 # Plantilla del consolidado
 
@@ -42,25 +44,26 @@ def Plantilla() -> dict:
     plantilla = {}
 
     headers = [
-        'Autores',
-        'Titulo',
-        'Nombre_Publicación',
-        'Tipo_Documento',
-        'Idioma',
-        'Resumen',
-        'Filiación_Autor',
-        'Referencias_Citadas',
-        'Total_Citas'
-        'País_Filiación_Autor',
-        'Año',
-        'Volumen',
-        'Número',
-        'DOI_Enlace_texto_completo']
+        "Autores",
+        "Titulo",
+        "Nombre_Publicación",
+        "Tipo_Documento",
+        "Idioma",
+        "Resumen",
+        "Filiación_Autor",
+        "Referencias_Citadas",
+        "Total_Citas" "País_Filiación_Autor",
+        "Año",
+        "Volumen",
+        "Número",
+        "DOI_Enlace_texto_completo",
+    ]
 
     for head in headers:
         plantilla[head] = []
 
     return plantilla, headers
+
 
 # Unificación de DataFrames
 
@@ -73,45 +76,49 @@ def Unify(data) -> dict:
         headers_data = dataBase.columns.values
 
         for index in dataBase.index.values:
-
             for head in headers:
-                if head == 'DOI_Enlace_texto_completo':
+                if head == "DOI_Enlace_texto_completo":
                     try:
                         unified_data[head].append(
-                            dataBase.iloc[[index]]['DOI'].values[0])
+                            dataBase.iloc[[index]]["DOI"].values[0]
+                        )
                     except KeyError:
                         unified_data[head].append(
-                            dataBase.iloc[[index]]['Enlace'].values[0])
+                            dataBase.iloc[[index]]["Enlace"].values[0]
+                        )
                 else:
                     try:
                         unified_data[head].append(
-                            dataBase.iloc[[index]][head].values[0])
+                            dataBase.iloc[[index]][head].values[0]
+                        )
                     except KeyError:
                         unified_data[head].append(np.NaN)
-        bar.set_description('Unificando ...')
+        bar.set_description("Unificando ...")
     return unified_data
+
 
 # Normalización de Autores usando nameparser
 
 
 def Normalize_Authors(data, dataBases):
     """
-        Lens:   Nombre Apellido ; -> Apellido, Nombre ;
-        Scielo: Nombre Apellido , -> Apellido, Nombre ;
-        Scopus: Apellido Nombre , -> Apellido, Nombre ;
-        Wos:    Apellido, Nombre ; -> Apellido, Nombre ;
+    Lens:   Nombre Apellido ; -> Apellido, Nombre ;
+    Scielo: Nombre Apellido , -> Apellido, Nombre ;
+    Scopus: Apellido Nombre , -> Apellido, Nombre ;
+    Wos:    Apellido, Nombre ; -> Apellido, Nombre ;
     """
     switch = {
-        'LENS': Normalize_Authors_Lens,
-        'SCIELO': Normalize_Authors_Scielo,
-        'SCOPUS': Normalize_Authors_Scopus,
-        'WOS': Normalize_Authors_Wos
+        "LENS": Normalize_Authors_Lens,
+        "SCIELO": Normalize_Authors_Scielo,
+        "SCOPUS": Normalize_Authors_Scopus,
+        "WOS": Normalize_Authors_Wos,
     }
     bar = tqdm(range(len(data)))
     for dataBaseNum in bar:
         normalization_case = switch.get(dataBases[dataBaseNum], Base_Not_Found)
         normalization_case(data[dataBaseNum])
-        bar.set_description('Normalizando Autores ...')
+        bar.set_description("Normalizando Autores ...")
+
 
 # Procesos de normalización por base de datos
 
@@ -119,7 +126,7 @@ def Normalize_Authors(data, dataBases):
 def Normalize_Authors_Lens(dataBase):
     CONSTANTS.string_format = "{first} {middle} {last}"
     for index in dataBase.index.values:
-        author_list = dataBase.Autores.values[index].split(';')
+        author_list = dataBase.Autores.values[index].split(";")
         normalized_authors = []
         for author in author_list:
             name = HumanName(author.strip())
@@ -127,18 +134,18 @@ def Normalize_Authors_Lens(dataBase):
             first_name = name.first
 
             if name.middle:
-                first_name += ' ' + name.middle
+                first_name += " " + name.middle
 
             normalized_authors.append(f"{last_name}, {first_name}")
 
-        dataBase.Autores.values[index] = '; '.join(normalized_authors)
+        dataBase.Autores.values[index] = "; ".join(normalized_authors)
 
 
 def Normalize_Authors_Scielo(dataBase):
     CONSTANTS.string_format = "{last}, {first} {middle}"
     for index in dataBase.index.values:
-        lst = dataBase.Autores.values[index].split(',')
-        author_list = [", ".join(lst[i:i+2]) for i in range(0, len(lst), 2)]
+        lst = dataBase.Autores.values[index].split(",")
+        author_list = [", ".join(lst[i : i + 2]) for i in range(0, len(lst), 2)]
         normalized_authors = []
         for author in author_list:
             name = HumanName(author.strip())
@@ -146,17 +153,17 @@ def Normalize_Authors_Scielo(dataBase):
             first_name = name.first
 
             if name.middle:
-                first_name += ' ' + name.middle
+                first_name += " " + name.middle
 
             normalized_authors.append(f"{last_name}, {first_name}")
 
-        dataBase.Autores.values[index] = '; '.join(normalized_authors)
+        dataBase.Autores.values[index] = "; ".join(normalized_authors)
 
 
 def Normalize_Authors_Scopus(dataBase):
     CONSTANTS.string_format = "{last} {first}.{middle}."
     for index in dataBase.index.values:
-        author_list = dataBase.Autores.values[index].split(',')
+        author_list = dataBase.Autores.values[index].split(",")
         normalized_authors = []
         for author in author_list:
             name = HumanName(author.strip())
@@ -164,11 +171,11 @@ def Normalize_Authors_Scopus(dataBase):
             first_name = name.first
 
             if name.middle:
-                first_name += ' ' + name.middle
+                first_name += " " + name.middle
 
             normalized_authors.append(f"{last_name}, {first_name}")
 
-        dataBase.Autores.values[index] = '; '.join(normalized_authors)
+        dataBase.Autores.values[index] = "; ".join(normalized_authors)
 
 
 def Normalize_Authors_Wos(dataBase):
@@ -176,19 +183,20 @@ def Normalize_Authors_Wos(dataBase):
 
 
 def Base_Not_Found(dataBase):
-    raise IndexError('Base de datos no encontrada.')
+    raise IndexError("Base de datos no encontrada.")
+
 
 # Normalización de Tipo_Documento
 
 
 def Normalize_Tipo_Documento(dataBase):
     """
-        Opciones:
-            - Article
-            - Book Chapter
-            - Proceedings Paper
-            - Review
-        Si está vacío se clasifica como Article
+    Opciones:
+        - Article
+        - Book Chapter
+        - Proceedings Paper
+        - Review
+    Si está vacío se clasifica como Article
     """
     Tipos_Documentos = [
         "Article",
@@ -207,37 +215,37 @@ def Normalize_Tipo_Documento(dataBase):
         except:
             dataBase.Tipo_Documento.values[index] = Tipos_Documentos[0]
 
+
 # Proceso completo de normalización y unificación
 
 
 def full_Process(data, dataBases, dictionaries, do_web_search=True) -> pd.DataFrame:
-
     Rename_Columns_array(data, dictionaries)
     Normalize_Authors(data, dataBases)
     unified = pd.DataFrame(Unify(data))
-    print('Tamaño: ' + str(len(unified.index.values)))
-    if (do_web_search):
+    print("Tamaño: " + str(len(unified.index.values)))
+    if do_web_search:
         wm.Full_with_doi(unified)
     Normalize_Tipo_Documento(unified)
     return unified
 
 
 # Diccionarios con traducciones de las columnas de los dataFrame's
-def Lens_Dictionary(lang='en') -> dict:
+def Lens_Dictionary(lang="en") -> dict:
     lens_dict_en = {
         # 'Lens ID'
-        'Title':   'Titulo',
+        "Title": "Titulo",
         # 'Date Published'
-        'Publication Year':   'Año',
-        'Publication Type':   'Tipo_Documento',
-        'Source Title': 'Nombre_Publicación',
+        "Publication Year": "Año",
+        "Publication Type": "Tipo_Documento",
+        "Source Title": "Nombre_Publicación",
         # 'ISSNs'
         # 'Publisher':   'Nombre_Publicación',  # No estoy seguro
-        'Source Country':   'País_Filiación_Autor',
-        'Author/s':   'Autores',
-        'Abstract':   'Resumen',
-        'Volume':   'Volumen',
-        'Issue Number':   'Número',
+        "Source Country": "País_Filiación_Autor",
+        "Author/s": "Autores",
+        "Abstract": "Resumen",
+        "Volume": "Volumen",
+        "Issue Number": "Número",
         # 'Start Page'
         # 'End Page'
         # 'Fields of Study'
@@ -245,15 +253,15 @@ def Lens_Dictionary(lang='en') -> dict:
         # 'MeSH Terms'
         # 'Chemicals'
         # 'Funding'
-        'Source URLs':   'Enlace Origen',
-        'External URL':   'Enlace Externo',
+        "Source URLs": "Enlace Origen",
+        "External URL": "Enlace Externo",
         # 'PMID'
-        'DOI':   'DOI',
+        "DOI": "DOI",
         # 'Microsoft Academic ID'
         # 'PMCID'
         # 'Citing Patents Count'                    :   'Citing Patents Count', # No estoy seguro de incluirlo
-        'References':   'Referencias_Citadas',
-        'Citing Works Count':   'Total_Citas',
+        "References": "Referencias_Citadas",
+        "Citing Works Count": "Total_Citas",
         # 'Is Open Access'
         # 'Open Access License'
         # 'Open Access Colour'
@@ -262,18 +270,18 @@ def Lens_Dictionary(lang='en') -> dict:
     }
     lens_dict_es = {
         # 'ID de The Lens'       :
-        'Título':   'Titulo',
+        "Título": "Titulo",
         # 'Fecha de publicación' :
-        'Año de publicación':   'Año',
-        'Tipo de publicación':   'Tipo_Documento',
+        "Año de publicación": "Año",
+        "Tipo de publicación": "Tipo_Documento",
         # 'Título de la fuente'  :
         # 'ISSN'
-        'Editor':   'Nombre_Publicación',  # No estoy seguro
-        'País de origen':   'País_Filiación_Autor',
-        'Autor/es':   'Autores',
-        'Resumen':   'Resumen',
-        'Volumen':   'Volumen',
-        'Número de problema':   'Número',
+        "Editor": "Nombre_Publicación",  # No estoy seguro
+        "País de origen": "País_Filiación_Autor",
+        "Autor/es": "Autores",
+        "Resumen": "Resumen",
+        "Volumen": "Volumen",
+        "Número de problema": "Número",
         # 'Página de inicio'
         # 'Página final'
         # 'Campos de estudio'
@@ -281,37 +289,34 @@ def Lens_Dictionary(lang='en') -> dict:
         # 'Términos MeSH'
         # 'Químicos'
         # 'Financiación'
-        'URL de origen':   'Enlace Origen',
-        'URL externa':   'Enlace Externo',
+        "URL de origen": "Enlace Origen",
+        "URL externa": "Enlace Externo",
         # 'PMID'
-        'DOI':   'DOI',
+        "DOI": "DOI",
         # 'Identificación académica de Microsoft'
         # 'PMCID'
         # 'Recuento de citas de patentes'             :   'Citing Patents Count', # No estoy seguro de incluirlo
-        'Referencias':   'Referencias_Citadas',
-        'Número de trabajos citados':   'Total_Citas',
+        "Referencias": "Referencias_Citadas",
+        "Número de trabajos citados": "Total_Citas",
         # 'Es acceso abierto'
         # 'Licencia de acceso abierto'
         # 'Color de acceso abierto'
         # ''                                       :   'Idioma',
         # ''                                       :   'Filiación_Autor'
     }
-    options = {
-        'EN':   lens_dict_en,
-        'ES':   lens_dict_es
-    }
+    options = {"EN": lens_dict_en, "ES": lens_dict_es}
     return options[lang.upper()]
 
 
 def Scielo_Dictionary() -> dict:
     scielo_dict = {
-        'Title':   'Titulo',
-        'Author(s)':   'Autores',
-        'Journal':   'Nombre_Publicación',
-        'Publication year':   'Año',
-        'Fulltext URL ':   'Enlace',
+        "Title": "Titulo",
+        "Author(s)": "Autores",
+        "Journal": "Nombre_Publicación",
+        "Publication year": "Año",
+        "Fulltext URL ": "Enlace",
         # ''             :   'Tipo_Documento'
-        'Language(s)':   'Idioma',
+        "Language(s)": "Idioma",
         # ''             :   'Resumen',
         # ''             :   'Filiación_Autor',
         # ''             :   'Referencias Citadas',
@@ -325,21 +330,21 @@ def Scielo_Dictionary() -> dict:
 
 def Scopus_Dictionary() -> dict:
     scopus_dict = {
-        'Authors':   'Autores',
-        'Title':   'Titulo',
-        'Year':   'Año',
-        'Source title':   'Nombre_Publicación',
-        'Volume':   'Volumen',
-        'Issue':   'Numero',
-        'Cited by':   'Total_Citas',
-        'DOI':   'DOI',
-        'Link':   'Enlace',
-        'Affiliations':   'Filiación_Autor',
+        "Authors": "Autores",
+        "Title": "Titulo",
+        "Year": "Año",
+        "Source title": "Nombre_Publicación",
+        "Volume": "Volumen",
+        "Issue": "Numero",
+        "Cited by": "Total_Citas",
+        "DOI": "DOI",
+        "Link": "Enlace",
+        "Affiliations": "Filiación_Autor",
         # 'Authors with affiliations' : '' # No estoy seguro
-        'Abstract':   'Resumen',
-        'References':   'Referencias_Citadas',
+        "Abstract": "Resumen",
+        "References": "Referencias_Citadas",
         # 'Publisher' :   'Nombre_Publicación',    # No estoy seguro
-        'Language of Original Document':   'Idioma',
+        "Language of Original Document": "Idioma",
         # ''         :   'Tipo_Documento',
         # ''         :   'País_Filiación_Autor',
     }
@@ -349,19 +354,19 @@ def Scopus_Dictionary() -> dict:
 def WoS_Dictionary() -> dict:
     wos_dict = {
         # 'PT':'Tipo_Documento',
-        'AU': 'Autores',
+        "AU": "Autores",
         # 'AF':'Author(s) Full Name',
         # 'BA':'Book Author(s)',
         # 'BF':'Book Author(s) Full Name',
         # 'CA':'Group Author(s)',
         # 'GP':'Book Group Author(s)',
         # 'BE':'Editor(s)',
-        'TI': 'Titulo',
-        'SO': 'Nombre_Publicación',
+        "TI": "Titulo",
+        "SO": "Nombre_Publicación",
         # 'SE':'Book Series Title',
         # 'BS':'Book Series Subtitle',
-        'LS': 'Idioma',
-        'DT': 'Tipo_Documento',
+        "LS": "Idioma",
+        "DT": "Tipo_Documento",
         # 'CT':'Conference Title',
         # 'CY':'Conference Date',
         # 'CL':'Conference Location',
@@ -369,32 +374,32 @@ def WoS_Dictionary() -> dict:
         # 'HO':'Conference Host',
         # 'DE':'Author Keywords',
         # 'ID':'Keywords Plus',
-        'AB': 'Resumen',
-        'C1': 'Filiación_Autor',  # No estoy seguro
+        "AB": "Resumen",
+        "C1": "Filiación_Autor",  # No estoy seguro
         # 'RP':'Reprint Address',
         # 'EM':'E-mail Address',
         # 'RI':'ResearcherID Number',
         # 'OI':'ORCID',
         # 'FU':'Funding Agency',
         # 'FX':'Funding Text',
-        'CR': 'Referencias_Citadas',
+        "CR": "Referencias_Citadas",
         # 'NR':'Cited Reference Count',
         # 'TC':'WoS Core Collection Times Cited Count',
-        'Z9': 'Total_Citas',  # No estoy seguro
+        "Z9": "Total_Citas",  # No estoy seguro
         # 'U1':'Usage Count (Last 180 Days)',
         # 'U2':'Usage Count (Since 2013)',
         # 'PU':'Publisher',
         # 'PI':'Publisher City',
-        'PA': 'País_Filiación_Autor',  # Lo incluye (No estoy seguro)
+        "PA": "País_Filiación_Autor",  # Lo incluye (No estoy seguro)
         # 'SN':'ISSN',
         # 'EI':'eISSN',
         # 'BN':'ISBN',
         # 'J9':'29-Character Source Abbreviation',
         # 'JI':'ISO Source Abbreviation',
         # 'PD':'Publication Date',
-        'PY': 'Año',
-        'VL': 'Volumen',
-        'IS': 'Número',
+        "PY": "Año",
+        "VL": "Volumen",
+        "IS": "Número",
         # 'SI':'Special Issue',
         # 'PN':'Part Number',
         # 'SU':'Supplement',
@@ -402,8 +407,8 @@ def WoS_Dictionary() -> dict:
         # 'BP':'Beginning Page',
         # 'EP':'Ending Page',
         # 'AR':'Article Number',
-        'DI': 'DOI',
-        'D2': 'Book DOI',
+        "DI": "DOI",
+        "D2": "Book DOI",
         # 'PG':'Page Count',
         # 'P2':'Chapter Count',
         # 'WC':'WoS Categories',

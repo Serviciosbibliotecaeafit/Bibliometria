@@ -24,27 +24,33 @@ Recolección, normalización y unificación de datos bibliográficos usando un b
 
 ---
 
-- **`{NOMBRE_BASE}/`(NO EN USO):** Carpeta con los datos sin unificar correspondientes a una base bibliográfica específica con nombre {NOMBRE_BASE}, e.g. LENS, SCIELO, WOS, etc.
-- **`Unificar_Data_{NOMBRE_BASE}.ipynb`(NO EN USO):** Notebook donde se realiza la unificación de los datos de una base espécifica con nombre {NOMBRE_BASE}.
-- **`Unificar_Data.ipynb`(NO EN USO):** Notebook donde se ejecutan las funciones y algoritmos que unifican globalmente y normalizan los datos de todas las bases bibliográficas.
+Descripciones de archivos para el usuario:
+
 - **`main.py`:** Script de ejecución principal encargado de leer un `.txt` con las urls, también ejecuta la función principal para obtener los datos y exporta lo obtenido a formato excel.
-- **`utilities.py`(NO EN USO):** Script con las funciones y algoritmos necesarios para la unificación y normalización de los datos.
+- **`selenium_outputs/BACKUP.csv`:** Archivo de respaldo donde se guardan los últimos datos recolectados por el bot en caso de un paro total.
+- **`selenium_outputs/log.out`:** Archivo de registro del proceso de web scraping donde se muestra el registro de respaldos y de errores presentados.
+- **`test_urls.txt`:** Archivo input de ejemplo para testeo del programa.
+- **`Data.xlsx`:** Archivo de excel con los datos de salida normalizados.
+- **`output.csv`:** Archivo en formato csv con los datos de salida normalizados.
+- **`outputRAW.csv`:** Archivo en formato csv con los datos de salida sin normalizar.
+
+Descripciones de archivos para devs:
+
 - **`selenium_methods.py`:** Script con las funciones y algoritmos generales para realizar web scraping mediante la libreria Selenium.
+- **`norm_methods.py`:** Script con las funciones y algoritmos para normalizar los datos obtenidos mediante web-scraping.
 - **`selenium_conf.json`:** Archivo con los datos de logeo y direcciones Xpaths para la extracción de la información.
-- **`BACKUP.csv`:** Archivo de respaldo donde se guardan los últimos datos recolectados por el bot en caso de un paro total.
-- **`log.out`:** Archivo de registro del proceso de web scraping donde se muestra el registro de respaldos y de errores presentados.
+- **`testing.ipynb`:** Archivo de testeo de algoritmos.
 
 ## Librerias
 
 ---
 
 - **Pandas** (1.5.3)
-- **Numpy (NO EN USO)** (1.24.2)
-- **Nameparser (NO EN USO)** (1.1.2)
 - **Selenium** (4.8.2)
 - **Webdriver-manager** (3.8.5)
 - **JSON**
 - **TQDM** (4.65.0)
+- **Openpyxl** (3.1.2)
 
 ## Funcionamiento
 
@@ -121,7 +127,7 @@ Una vez descargado el `.ZIP`, lo descomprimimos y la carpeta generada la movemos
 
 Para que el programa funcione adecuadamente se debe ejecutar el siguiente comando en la terminal de Anaconda (estando en el ambiente virtual `Bibliometria`):
 
-      pip install pandas==1.5.3 selenium==4.8.2 tqdm==4.65.0 webdriver-manager==3.8.5
+      pip install pandas==1.5.3 selenium==4.8.2 tqdm==4.65.0 webdriver-manager==3.8.5 openpyxl==3.1.2
 
 Si se obtiene algún error, entonces instalar cada libreria por separado, por ejemplo:
 
@@ -143,7 +149,13 @@ Así nos encontramos en la carpeta del repositorio listos para usar el programa.
 
 ---
 
-Actualmente el programa se usa a través del [script `main.py`](#descripciones), por lo que es necesario crear o mover un archivo `.txt` a la carpeta del programa e modificar en el script `main.py` la variable `url_file_name` con el nombre del nuevo archivo. Para testeo, en el script se puede encontrar el nombre `"test_urls"` referentes al archivo `test_urls.txt` que se encuentra en la carpeta.
+Actualmente el programa se usa a través del [script `main.py`](#descripciones), por lo que es necesario crear o mover un archivo `.txt` a la carpeta del programa. Para testeo, en la carpeta se puede encontrar con el archivo `test_urls.txt` (252 links) y `test_urls_short.txt` (100 links). De esta forma, para obtener los datos de estos links se usa el comando:
+
+      python main.py [Nombre_del_archivo]
+
+Por ejemplo, para `test_urls.txt` se usa:
+
+      python main.py test_urls
 
 
 ## Futuro
