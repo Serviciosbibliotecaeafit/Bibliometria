@@ -54,17 +54,17 @@ def obtain_data(urls):
     headers = [
         "Autores",
         "Titulo",
-        "Nombre_Publicación",
+        "Nombre_Publicacion",
         "Tipo_Documento",
         "Idioma",
         "Resumen",
-        "Filiación_Autor",
+        "Filiacion_Autor",
         "Referencias_Citadas",
         "Total_Citas",
-        "País_Filiación_Autor",
-        "Año",
+        "Pais_Filiacion_Autor",
+        "Ano",
         "Volumen",
-        "Número",
+        "Numero",
         "DOI_Enlace_texto_completo",
     ]
 
@@ -75,17 +75,17 @@ def obtain_data(urls):
     output = {
         "Autores": [],
         "Titulo": [],
-        "Nombre_Publicación": [],
+        "Nombre_Publicacion": [],
         "Tipo_Documento": [],
         "Idioma": [],
         "Resumen": [],
-        "Filiación_Autor": [],
+        "Filiacion_Autor": [],
         "Referencias_Citadas": [],
         "Total_Citas": [],
-        "País_Filiación_Autor": [],
-        "Año": [],
+        "Pais_Filiacion_Autor": [],
+        "Ano": [],
         "Volumen": [],
-        "Número": [],
+        "Numero": [],
         "DOI_Enlace_texto_completo": [],
     }
 
@@ -148,8 +148,8 @@ def obtain_data(urls):
                         xpath_ind += 1
                         continue
                     # No se encontró completamente el elemento
-                    print(head + " : " + url)
-                    data = "Not Found"
+                    print(f"\n\tNO ENCONTRADO\n{head}:\n{url}\n")
+                    data = "No Encontrado"
                     # Registramos el fallo de busqueda
                     register_log(
                         f"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n\tDATO: <{head}> NO ENCONTRADO EN:\n\t {url}\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n\n"

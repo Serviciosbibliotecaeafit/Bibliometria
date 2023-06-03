@@ -18,7 +18,7 @@ def scopus(data):
     aux_data["Tipo_Documento"] = Tipo_Doc_scopus(data)
 
     # Normalización de Filiación_Autor
-    aux_data["Filiación_Autor"] = Fili_Autor_scopus(data)
+    aux_data["Filiacion_Autor"] = Fili_Autor_scopus(data)
 
     # Normalización de Referencias_Citadas
     aux_data["Referencias_Citadas"] = Ref_Citadas_scopus(data)
@@ -27,16 +27,16 @@ def scopus(data):
     aux_data["Total_Citas"] = Total_Citas_scopus(data)
 
     # Normalización de Pais_Filiación_Autor
-    aux_data["Pais_Filiación_Autor"] = Pais_Fili_Autor_scopus(data)
+    aux_data["Pais_Filiacion_Autor"] = Pais_Fili_Autor_scopus(data)
 
     # Normalización de Año
-    aux_data["Año"] = Ano_scopus(data)
+    aux_data["Ano"] = Ano_scopus(data)
 
     # Normalización de Volumen
     aux_data["Volumen"] = Volumen_scopus(data)
 
     # Normalización de Número
-    aux_data["Número"] = Numero_scopus(data)
+    aux_data["Numero"] = Numero_scopus(data)
 
     return aux_data
 
@@ -49,7 +49,7 @@ def Tipo_Doc_scopus(data):
     old_values = data["Tipo_Documento"]
     new_values = old_values
     for i in range(len(old_values)):
-        if old_values[i] == "Not Found":
+        if old_values[i] == "No Encontrado":
             continue
         new_values[i] = old_values[i].split("•")[0]
 
@@ -61,10 +61,10 @@ def Fili_Autor_scopus(data):
     Recibimos los datos de la forma
     'a Filiación_Autor, Ciudad(talvez), País_Filiación_Autor \nb ...'
     """
-    old_values = data["Filiación_Autor"]
+    old_values = data["Filiacion_Autor"]
     new_values = old_values
     for i in range(len(old_values)):
-        if old_values[i] == "Not Found":
+        if old_values[i] == "No Encontrado":
             continue
         values = [
             old_values[i].split("\n")[j][2:].split(",")[0]
@@ -88,7 +88,7 @@ def Ref_Citadas_scopus(data):
     old_values = data["Referencias_Citadas"]
     new_values = old_values
     for i in range(len(old_values)):
-        if old_values[i] == "Not Found":
+        if old_values[i] == "No Encontrado":
             continue
         values = []
         value = old_values[i].split("\n")
@@ -129,7 +129,7 @@ def Total_Citas_scopus(data):
     old_values = data["Total_Citas"]
     new_values = old_values
     for i in range(len(old_values)):
-        if old_values[i] == "Not Found":
+        if old_values[i] == "No Encontrado":
             continue
         new_values[i] = old_values[i][-3:-1]
 
@@ -141,10 +141,10 @@ def Pais_Fili_Autor_scopus(data):
     Recibimos los datos de la forma
     'a Filiación_Autor, Ciudad(talvez), País_Filiación_Autor \nb ...'
     """
-    old_values = data["País_Filiación_Autor"]
+    old_values = data["Pais_Filiacion_Autor"]
     new_values = old_values
     for i in range(len(old_values)):
-        if old_values[i] == "Not Found":
+        if old_values[i] == "No Encontrado":
             continue
         values = [
             old_values[i].split("\n")[j][2:].split(",")[-1][1:]
@@ -161,13 +161,15 @@ def Pais_Fili_Autor_scopus(data):
 
 
 def Ano_scopus(data):
-    old_values = data["Año"]
+    old_values = data["Ano"]
     new_values = old_values
 
     for i in range(len(old_values)):
+        if old_values[i] == "No Encontrado":
+            continue
         articleNumberIdx = old_values[i].find("Article number")
         if articleNumberIdx == -1:
-            new_values[i] = old_values[i][-4:-1]
+            new_values[i] = old_values[i][-4:-1] if old_values[i][-4:-1].strip().isnumeric() else "No Encontrado"
             continue
         new_values[i] = old_values[i][articleNumberIdx - 5 : articleNumberIdx - 1]
 
@@ -179,10 +181,12 @@ def Volumen_scopus(data):
     new_values = old_values
 
     for i in range(len(old_values)):
+        if old_values[i] == "No Encontrado":
+            continue
         volumeIdx = old_values[i].find("Volume")
         endVolumeIdx = old_values[i].find(",", volumeIdx)
         if volumeIdx == -1:
-            new_values[i] = "Not Found"
+            new_values[i] = "No Encontrado"
             continue
         new_values[i] = old_values[i][volumeIdx + 7 : endVolumeIdx]
 
@@ -190,13 +194,13 @@ def Volumen_scopus(data):
 
 
 def Numero_scopus(data):
-    old_values = data["Número"]
+    old_values = data["Numero"]
     new_values = old_values
 
     for i in range(len(old_values)):
         numeroIdx = old_values[i].find("Issue")
         if numeroIdx == -1:
-            new_values[i] = "Not Found"
+            new_values[i] = "No Encontrado"
             continue
 
         for j in range(len(old_values[i][numeroIdx + 7 :])):
