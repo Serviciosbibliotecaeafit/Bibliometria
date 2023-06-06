@@ -1,8 +1,4 @@
 {
-    "credentials"   :   {
-        "email": "jmduarteq@eafit.edu.co",
-        "password": "Claudia1000636304"
-    },
     "login_url" :   "https://id.elsevier.com/as/authorization.oauth2?platSite=SC%2Fscopus&ui_locales=en-US&scope=openid+profile+email+els_auth_info+els_analytics_info+urn%3Acom%3Aelsevier%3Aidp%3Apolicy%3Aproduct%3Aindv_identity&els_policy=idp_policy_indv_identity_plus&response_type=code&redirect_uri=https%3A%2F%2Fwww.scopus.com%2Fauthredirect.uri%3FtxGid%3Dd21b73511c7cc12a66f4f94ba507d166&state=userLogin%7CtxId%3D719C951EA7395A315D1EE6ACC79C706A.i-03bbe1a7c98c5a12e%3A9&authType=SINGLE_SIGN_IN&prompt=login&client_id=SCOPUS",
     "XPATHS"    :   {
         "Autores": [

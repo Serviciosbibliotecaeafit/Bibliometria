@@ -8,8 +8,6 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException
 import json
 import pandas as pd
 
-from tqdm import tqdm
-
 
 def open_nav():
     # Abrimos el navegador
@@ -39,13 +37,12 @@ def button_available(driver, button_ID):
     return driver.find_element(By.ID, button_ID).is_enabled()
 
 
-def obtain_data(urls):
+def obtain_data(urls, credentials):
     # Obtención de los datos mediante web-scraping
 
     # Credenciales de SCOPUS
     conf_file = open("selenium_conf.json")
     conf_data = json.load(conf_file)
-    credentials = conf_data["credentials"]
 
     # URL para logear
     log_url = conf_data["login_url"]
@@ -101,9 +98,9 @@ def obtain_data(urls):
         True,
     )
 
-    bar = tqdm(range(len(urls)))
     # Obtenemos los datos
-    for i in bar:
+    for i in range(len(urls)):
+        register_progress(i+1, len(urls))
         url = urls[i]
         driver.get(url)
 
@@ -166,14 +163,21 @@ def obtain_data(urls):
             )
 
     driver.close()
+    register_log(
+        "----------------------------------------------------------------\n\tFIN DE REGISTRO\n----------------------------------------------------------------\n\n"
+    )
     return output
 
 
 def register_log(text, first=False):
     # Función para guardar el registro de funcionamiento del bot
-    mode = "a"
-    if first:
-        mode = "w"
+    mode = "w" if first else "a"
     log_file = open("selenium_outputs/log.out", mode)
     log_file.write(text)
     log_file.close()
+
+def register_progress(progress, maximum):
+    # Función para guardar el progreso de la busqueda
+    progress_file = open("selenium_outputs/progress.out", "w")
+    progress_file.write(str(100*progress/maximum))
+    progress_file.close()
