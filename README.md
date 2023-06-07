@@ -79,7 +79,7 @@ En el archivo `.json` se puede observar un XPath auxiliar que se puede usar para
 
 ### Instalación
 
-Para instalar la aplicación descargue el [instalador] y siga las instrucciones. También, tenga en cuenta tener instalado en su computador el navegador **Google Chrome**.
+Para instalar la aplicación descargue el [instalador](installationTest/installBibliometria.exe) y siga las instrucciones. También, tenga en cuenta tener instalado en su computador el navegador **Google Chrome**.
 
 ### Manejo
 
