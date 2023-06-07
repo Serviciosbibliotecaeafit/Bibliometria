@@ -166,6 +166,7 @@ def obtain_data(urls, credentials):
     register_log(
         "----------------------------------------------------------------\n\tFIN DE REGISTRO\n----------------------------------------------------------------\n\n"
     )
+    register_progress(len(urls)+1, len(urls))
     return output
 
 

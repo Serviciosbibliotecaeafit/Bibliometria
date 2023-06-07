@@ -4,7 +4,7 @@ import webbrowser
 import threading
 from time import sleep
 
-from main_program import Search_Data, Export
+from main_program import Search_Data, Export, Export_Backup
 import selenium_methods as sm
 import norm_methods as norm
 import pandas as pd
@@ -21,6 +21,10 @@ class Window(QObject):
     @pyqtSlot()
     def webpage(self):
         webbrowser.open('https://www.eafit.edu.co')
+
+    @pyqtSlot(str, str)
+    def exportBackup(self, dataBase, outputFolder):
+        Export_Backup(dataBase, outputFolder.split("///")[1])
 
     @pyqtSlot(str, str, str, str, str)
     def main_process(self, inputFile, data_base, outputFolder, email, password,):
@@ -40,8 +44,6 @@ class Window(QObject):
         
     def _main_process(self):
         self.obtainedData = Search_Data(self.dataBase, self.filename, self.credentials)
-        self.finished(True)
-        self.proccessing = False
 
     @pyqtSlot()
     def export(self):
@@ -76,6 +78,9 @@ class Window(QObject):
             progress_file.close()
             self.updater(data_log)
             self.progress_Bar(progressValue)
+            if progressValue > 100:
+                self.finished(True)
+                self.proccessing = False
             sleep(1)
     
     def ResetLogs(self):

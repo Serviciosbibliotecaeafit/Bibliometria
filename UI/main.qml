@@ -59,8 +59,19 @@ ApplicationWindow{
             color: "black"
             anchors {
                 bottom: sec_rect.top
-                topMargin: unit/2
+                margins: unit/2
                 horizontalCenter: sec_rect.horizontalCenter
+            }
+        }
+
+        Text {
+            text: "Versión: 0.1.0"
+            font.italic: true
+            font.pixelSize: 12
+            anchors {
+                bottom: parent.bottom
+                left: parent.left
+                margins: unit/2
             }
         }
 
@@ -277,12 +288,36 @@ ApplicationWindow{
                     anchors.fill: parent
                     clip: true
 
-                    Label {
+                    TextEdit {
                         id: logLabel
                         text: "Registro"
+                        readOnly: true
+                        selectByMouse: true
+                        wrapMode: Text.WordWrap
                         font.pixelSize: 15
                         anchors.verticalCenter: parent.verticalCenter
                     }
+                }
+            }
+
+            Button {
+                id: exportBackup
+                text: "Exportar Backup"
+                font.pixelSize: 12
+
+                enabled: {
+                    if (bDataBase && bOutputFolder) return true
+                    else return false
+                }
+
+                onClicked: {
+                    window.exportBackup(dataBase, outputFolder)
+                }
+
+                anchors {
+                    left: parent.left
+                    bottom: parent.bottom
+                    margins: unit
                 }
             }
         }

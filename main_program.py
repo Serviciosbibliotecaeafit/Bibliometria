@@ -39,6 +39,31 @@ def Search_Data(data_base, filename, credentials):
 
     return outputData
 
+def Export_Backup(data_base, outputFolder):
+    backupData = pd.read_csv('selenium_outputs/BACKUP.csv', sep=',').to_dict()
+    match data_base:
+            case "LENS":
+                # Falta registrar la base de datos
+                outputData = {}
+
+            case "SCIELO":
+                # Falta registrar la base de datos
+                outputData = {}
+            
+            case "SCOPUS":
+                
+                # Normalizamos los datos
+                outputData = norm.scopus(backupData)
+
+            case "WOS":
+                # Falta registrar la base de datos
+                outputData = {}
+            
+            case default:
+                raise ValueError("Base de Datos No Registrada")
+    
+    Export(outputData, outputFolder)
+
 def Export(data, outputFolder):
     # Convertimos a DataFrame
     outputData = pd.DataFrame(data)
