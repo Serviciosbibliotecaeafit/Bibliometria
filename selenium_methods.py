@@ -1,17 +1,20 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from selenium.common.exceptions import TimeoutException
 
 import json
 import pandas as pd
 
+options = Options()
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-gpu")
+options.add_argument("--disable-dev-shm-usage")
 
 def open_nav():
     # Abrimos el navegador
-    return webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    return webdriver.Firefox(options=options)
 
 
 def log_in(driver, log_url, email, password):
@@ -145,7 +148,7 @@ def obtain_data(urls, credentials):
                         xpath_ind += 1
                         continue
                     # No se encontró completamente el elemento
-                    print(f"\n\tNO ENCONTRADO\n{head}:\n{url}\n")
+                    #print(f"\n\tNO ENCONTRADO\n{head}:\n{url}\n")
                     data = "No Encontrado"
                     # Registramos el fallo de busqueda
                     register_log(
@@ -173,12 +176,12 @@ def obtain_data(urls, credentials):
 def register_log(text, first=False):
     # Función para guardar el registro de funcionamiento del bot
     mode = "w" if first else "a"
-    log_file = open("selenium_outputs/log.out", mode)
+    log_file = open("./selenium_outputs/log.out", mode)
     log_file.write(text)
     log_file.close()
 
 def register_progress(progress, maximum):
     # Función para guardar el progreso de la busqueda
-    progress_file = open("selenium_outputs/progress.out", "w")
+    progress_file = open("./selenium_outputs/progress.out", "w")
     progress_file.write(str(100*progress/maximum))
     progress_file.close()
