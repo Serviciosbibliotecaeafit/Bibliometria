@@ -1,3 +1,5 @@
+import re
+
 def scopus(data):
     # Función de normalización para SCOPUS
     """
@@ -13,6 +15,9 @@ def scopus(data):
 
     # data auxiliar
     aux_data = data
+
+    # Normalización de Autores
+    aux_data["Autores"] = Autores_scopus(data)
 
     # Normalización de Tipo_Documento
     aux_data["Tipo_Documento"] = Tipo_Doc_scopus(data)
@@ -40,6 +45,26 @@ def scopus(data):
 
     return aux_data
 
+def Autores_scopus(data):
+    """
+    Recibimos los datos de la forma
+    'Autor1\n a\n Send mail to nombre1\n; Autor2\n ...'
+    """
+    old_values = data["Autores"]
+    new_values = old_values
+
+    pattern = r'^(?:[a-d],\s*)*[a-d]?$'
+    for i in range(len(old_values)):
+        if old_values[i] == "No Encontrado":
+            continue
+        values = old_values[i].split("\n")
+        valid_values = []
+        for j in range(len(values)):
+            if not re.match(pattern, values[j]) and values[j].find("Send mail") == -1 and values[j] != ";":
+                valid_values.append(values[j])
+        new_values[i] = "; ".join(valid_values)
+    
+    return new_values
 
 def Tipo_Doc_scopus(data):
     """
@@ -169,7 +194,7 @@ def Ano_scopus(data):
             continue
         articleNumberIdx = old_values[i].find("Article number")
         if articleNumberIdx == -1:
-            new_values[i] = old_values[i][-4:-1] if old_values[i][-4:-1].strip().isnumeric() else "No Encontrado"
+            new_values[i] = old_values[i][-4:] if old_values[i][-4:].strip().isnumeric() else "No Encontrado"
             continue
         new_values[i] = old_values[i][articleNumberIdx - 5 : articleNumberIdx - 1]
 
