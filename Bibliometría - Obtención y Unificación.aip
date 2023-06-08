@@ -120,6 +120,7 @@
     <ROW Directory="designer_7_Dir" Directory_Parent="Physics_Dir" DefaultDir="designer"/>
     <ROW Directory="designer_Dir" Directory_Parent="Controls_Dir" DefaultDir="designer"/>
     <ROW Directory="devtools_Dir" Directory_Parent="common_Dir" DefaultDir="devtools"/>
+    <ROW Directory="driver_Dir" Directory_Parent="main_Dir" DefaultDir="driver"/>
     <ROW Directory="fft_Dir" Directory_Parent="numpy_Dir" DefaultDir="fft"/>
     <ROW Directory="firefox_Dir" Directory_Parent="webdriver_Dir" DefaultDir="firefox"/>
     <ROW Directory="formats_Dir" Directory_Parent="io_Dir" DefaultDir="formats"/>
@@ -368,6 +369,7 @@
     <ROW Component="effectsplugin.dll" ComponentId="{04AF1DE6-8B6E-498E-AACE-537F1A85CEB8}" Directory_="Effects_Dir" Attributes="256" KeyPath="effectsplugin.dll"/>
     <ROW Component="ffi.dll" ComponentId="{C1D39900-0096-4AAE-9CE8-3E80C62211E6}" Directory_="main_Dir" Attributes="256" KeyPath="ffi.dll"/>
     <ROW Component="findElements.js" ComponentId="{F0143122-0E58-4E8D-B2B4-AA30B2275824}" Directory_="remote_Dir" Attributes="0" KeyPath="findElements.js" Type="0"/>
+    <ROW Component="geckodriver.exe" ComponentId="{68AE934B-C38E-44D5-BDD6-226F10B358BA}" Directory_="driver_Dir" Attributes="256" KeyPath="geckodriver.exe"/>
     <ROW Component="html.tpl" ComponentId="{E697B535-D3BD-4542-915E-7B8B89953686}" Directory_="templates_Dir" Attributes="0" KeyPath="html.tpl" Type="0"/>
     <ROW Component="iso_abstract_expand.xsl" ComponentId="{B38BB462-C8B2-4F95-B05C-C6AE0C89645F}" Directory_="isoschematronxslt1_Dir" Attributes="0" KeyPath="iso_abstract_expand.xsl" Type="0"/>
     <ROW Component="isoschematron.rng" ComponentId="{88174ED5-6D0C-495A-908F-84C74796A8C9}" Directory_="rng_Dir" Attributes="0" KeyPath="isoschematron.rng" Type="0"/>
@@ -2730,6 +2732,7 @@
     <ROW File="_sqlite3.pyd" Component_="base_library.zip" FileName="_sqlite3.pyd" Attributes="0" SourcePath="dist\main\_sqlite3.pyd" SelfReg="false"/>
     <ROW File="_ssl.pyd" Component_="base_library.zip" FileName="_ssl.pyd" Attributes="0" SourcePath="dist\main\_ssl.pyd" SelfReg="false"/>
     <ROW File="_uuid.pyd" Component_="base_library.zip" FileName="_uuid.pyd" Attributes="0" SourcePath="dist\main\_uuid.pyd" SelfReg="false"/>
+    <ROW File="geckodriver.exe" Component_="geckodriver.exe" FileName="GECKOD~1.EXE|geckodriver.exe" Attributes="0" SourcePath="dist\main\driver\geckodriver.exe" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BootstrOptComponent">
     <ROW BootstrOptKey="GlobalOptions" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>
@@ -3123,6 +3126,7 @@
     <ROW Feature_="MainFeature" Component_="VCRUNTIME140.dll"/>
     <ROW Feature_="MainFeature" Component_="VCRUNTIME140_1.dll_2"/>
     <ROW Feature_="MainFeature" Component_="zlib.dll"/>
+    <ROW Feature_="MainFeature" Component_="geckodriver.exe"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiIconsComponent">
     <ROW Name="bibliometria.exe" SourcePath="dist\main\bibliometria.exe" Index="0"/>

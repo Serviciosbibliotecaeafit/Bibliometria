@@ -100,3 +100,90 @@ JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch
 JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
 1686197836328	Marionette	INFO	Stopped listening on port 62286
 Dynamically enable window occlusion 1
+1686230418269	geckodriver	INFO	Listening on 127.0.0.1:64001
+1686230421946	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--no-sandbox" "--disable-gpu" "--disable-d ...  "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\USUARIO\\AppData\\Local\\Temp\\rust_mozprofilepu6aVu"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1686230422641	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1686230422652	Marionette	INFO	Listening on port 64009
+Read port: 64009
+console.error: "Warning: unrecognized command line flag -no-sandbox\n"
+console.error: "Warning: unrecognized command line flag -disable-dev-shm-usage\n"
+WebDriver BiDi listening on ws://127.0.0.1:64002
+1686230422895	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+DevTools listening on ws://127.0.0.1:64002/devtools/browser/c98b8e39-1583-4f23-b737-7d65f503fa1a
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/ea85aabe063c/launch-89fabdbe31df.min.js, line 4: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://id.elsevier.com."
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/ea85aabe063c/launch-89fabdbe31df.min.js, line 4: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://id.elsevier.com."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://id.elsevier.com."
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/ea85aabe063c/launch-89fabdbe31df.min.js, line 4: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/ea85aabe063c/launch-89fabdbe31df.min.js, line 4: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://components.scopus.com/www/components/jquery.min.js, line 2: Using //@ to indicate sourceMappingURL pragmas is deprecated. Use //# instead
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://components.scopus.com/www/components/jquery.min.js, line 2: Using //@ to indicate sourceMappingURL pragmas is deprecated. Use //# instead
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://components.scopus.com/www/components/jquery.min.js, line 2: Using //@ to indicate sourceMappingURL pragmas is deprecated. Use //# instead
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://components.scopus.com/www/components/jquery.min.js, line 2: Using //@ to indicate sourceMappingURL pragmas is deprecated. Use //# instead
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+1686230687418	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://remote/content/marionette/sync.sys.mjs:221:24
+TimedPromise@chrome://remote/content/marionette/sync.sys.mjs:205:10
+interaction.flushEventLoop@chrome://remote/content/marionette/interaction.sys.mjs:424:10
+webdriverClickElement@chrome://remote/content/marionette/interaction.sys.mjs:173:31
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://assets.adobedtm.com/4a848ae9611a/8abdb8d26bcc/launch-5ed435cee62b.min.js, line 5: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+1686230708662	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://remote/content/marionette/sync.sys.mjs:221:24
+TimedPromise@chrome://remote/content/marionette/sync.sys.mjs:205:10
+interaction.flushEventLoop@chrome://remote/content/marionette/interaction.sys.mjs:424:10
+webdriverClickElement@chrome://remote/content/marionette/interaction.sys.mjs:173:31
+1686230710422	Marionette	INFO	Stopped listening on port 64009
+Dynamically enable window occlusion 1

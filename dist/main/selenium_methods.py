@@ -6,6 +6,8 @@ from selenium.common.exceptions import TimeoutException
 
 import json
 import pandas as pd
+import os
+import sys
 
 options = Options()
 options.add_argument("--no-sandbox")
@@ -14,12 +16,12 @@ options.add_argument("--disable-dev-shm-usage")
 
 def open_nav():
     # Abrimos el navegador
-    return webdriver.Firefox(options=options)
+    return webdriver.Firefox('./driver/', options=options)
 
 
 def log_in(driver, log_url, email, password):
     # Logeo a la base de datos usando las credenciales en selenium_conf.json
-    print("Logging...")
+    #print("Logging...")
     driver.get(log_url)
     email_box = driver.find_element(By.ID, "bdd-email")
     email_box.send_keys(email)
@@ -97,7 +99,7 @@ def obtain_data(urls, credentials):
 
     # Creamos registro
     register_log(
-        "----------------------------------------------------------------\n\tINICIO DE REGISTRO\n----------------------------------------------------------------\n\n",
+        "----------------------------------------------------------------\nINICIO DE REGISTRO\n----------------------------------------------------------------\n\n",
         True,
     )
 
@@ -152,7 +154,7 @@ def obtain_data(urls, credentials):
                     data = "No Encontrado"
                     # Registramos el fallo de busqueda
                     register_log(
-                        f"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n\tDATO: <{head}> NO ENCONTRADO EN:\n\t {url}\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n\n"
+                        f"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nDATO: <{head}> NO ENCONTRADO EN:\n {url}\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n\n"
                     )
             # Agregamos el dato al output
             output[head].append(data)
@@ -162,7 +164,7 @@ def obtain_data(urls, credentials):
             # Registro de busqueda
             pd.DataFrame(output).to_csv("selenium_outputs/BACKUP.csv")
             register_log(
-                f"|||||||||||||||||||||||||||||||||||||||||\n\tBACKUP REALIZADO\n\tULTIMA URL:\n\t {url}\n|||||||||||||||||||||||||||||||||||||||||\n\n"
+                f"||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n\tBACKUP REALIZADO\n\tULTIMA URL:\n\t {url}\n||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n\n"
             )
 
     driver.close()

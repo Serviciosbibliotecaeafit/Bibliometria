@@ -10,6 +10,7 @@ a = Analysis(
     binaries=[],
     datas=[( 'UI', 'UI'),
            ( 'selenium_outputs', 'selenium_outputs'),
+           ( 'driver', 'driver'),
            ( 'main_program.py', '.'),
            ( 'norm_methods.py', '.'),
            ( 'README.md', '.'),

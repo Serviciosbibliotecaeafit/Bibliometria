@@ -29,12 +29,12 @@ Recolección, normalización y unificación de datos bibliográficos usando un b
 - **`selenium_methods.py`:** Script con las funciones y algoritmos generales para realizar web scraping mediante la libreria Selenium.
 - **`norm_methods.py`:** Script con las funciones y algoritmos para normalizar los datos obtenidos mediante web-scraping.
 - **`selenium_conf.json`:** Archivo con los datos de logeo y direcciones Xpaths para la extracción de la información.
-- **`installforgeSttings.ifp`:** Archivo de configuración para crear el instalador mediante InstallForge.
+- **`Bibliometría - Obtención y Unificación.aip`:** Archivo de configuración para crear el instalador mediante Advanced Installer.
 - **`test_urls.txt`:** Archivo input de ejemplo para testeo del programa.
 - **`Data.xlsx`:** Archivo de excel con los datos de salida normalizados.
 - **`output.csv`:** Archivo en formato csv con los datos de salida normalizados.
 - **`outputRAW.csv`:** Archivo en formato csv con los datos de salida sin normalizar.
-- **`ìnstallationTest/installBibliometria.exe`:** Instalador del programa
+- **`Bibliometría - Obtención y Unificación-SetupFiles/Bibliometría - Obtención y Unificación.msi`:** Instalador del programa
 
 ## Librerias
 
@@ -79,9 +79,11 @@ En el archivo `.json` se puede observar un XPath auxiliar que se puede usar para
 
 ### Instalación
 
-Para instalar la aplicación descargue el [instalador](installationTest/installBibliometria.exe) y siga las instrucciones. También, tenga en cuenta tener instalado en su computador el navegador **Firefox**.
+Para instalar la aplicación descargue el [instalador](Bibliometría - Obtención y Unificación-SetupFiles/Bibliometría - Obtención y Unificación.msi) y siga las instrucciones. También, tenga en cuenta tener instalado en su computador el navegador **Firefox**.
 
 ### Manejo
+
+**Advertencia:** Ejecutar el programa como administrador para que funcione adecuadamente.
 
 Los pasos a seguir son:
 
