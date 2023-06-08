@@ -79,7 +79,7 @@ En el archivo `.json` se puede observar un XPath auxiliar que se puede usar para
 
 ### Instalación
 
-Para instalar la aplicación descargue el [instalador](installationTest/installBibliometria.exe) y siga las instrucciones. También, tenga en cuenta tener instalado en su computador el navegador **Google Chrome**.
+Para instalar la aplicación descargue el [instalador](installationTest/installBibliometria.exe) y siga las instrucciones. También, tenga en cuenta tener instalado en su computador el navegador **Firefox**.
 
 ### Manejo
 
@@ -90,7 +90,7 @@ Los pasos a seguir son:
 - **Introduzca Credenciales:** Introduzca su correo y contraseña que usa para acceder a la base de datos seleccionada.
 - **Introduzca Carpeta de Salida:** De click en seleccionar, se le abrirá un buscador donde deberá dirigirse a la carpeta donde desea guardar los datos.
 
-Una vez introducidos todos los datos, podrá dar click a `Obtener Datos`. A continuación, se le abrirá una terminal y un navegador de Google Chrome para dar inicio a la obtención de datos y en el panel derecho observará que el registro de obtención. El avance del proceso lo podrá observar a través de la barra de progreso justo debajo de `Obtener Datos`.
+Una vez introducidos todos los datos, podrá dar click a `Obtener Datos`. A continuación, se le abrirá una terminal y un navegador de Firefox para dar inicio a la obtención de datos y en el panel derecho observará que el registro de obtención. El avance del proceso lo podrá observar a través de la barra de progreso justo debajo de `Obtener Datos`.
 
 Cuando se de por terminado la obtención de datos, observará la barra de progreso a desaparecido y ahora encontrará un boton con el texto `Exportar`, al darle click los datos obtenidos serán exportados en formato `.csv` y `.xlsx` en la carpeta que usted halla seleccionado.
 
