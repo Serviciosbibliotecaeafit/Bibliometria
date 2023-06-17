@@ -6,53 +6,69 @@ from selenium.common.exceptions import TimeoutException
 
 import json
 import pandas as pd
-import os
-import sys
 
+"""
+    Obtencion de datos usando Selenium y Xpaths, puede que este método de ubicación no sea el más eficiente pero sí el más efectivo, ya que los datos en su mayoria no poseen IDs por si solos.
+
+    Update Notes:
+    - v0.1.0: Enfocado unicamente en la base de datos SCOPUS pero facilmente replicable (no reutilizable) para otras.
+"""
+
+# opciones del navegador
 options = Options()
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-gpu")
 options.add_argument("--disable-dev-shm-usage")
+# se mantiene visible para evitar bloqueos
 
 def open_nav():
-    # Abrimos el navegador
+    # Abre el navegador (usamos firefox por compatibilidad con pyInstaller)
     return webdriver.Firefox('./driver/', options=options)
 
 
 def log_in(driver, log_url, email, password):
-    # Logeo a la base de datos usando las credenciales en selenium_conf.json
-    #print("Logging...")
+    # Logea a la base de datos utilizando las credenciales del usuario
     driver.get(log_url)
-    email_box = driver.find_element(By.ID, "bdd-email")
+
+    email_box_ID = "bdd-email" # UNICAMENTE SCOPUS
+    email_box = driver.find_element(By.ID, email_box_ID)
     email_box.send_keys(email)
-    continue_button_ID = "bdd-elsPrimaryBtn"
+
+    continue_button_ID = "bdd-elsPrimaryBtn" # UNICAMENTE SCOPUS
     continue_button = driver.find_element(By.ID, continue_button_ID)
+
+    # Espera 10 segundos en caso de que el boton no halla cargado correctamente
     WebDriverWait(driver, timeout=10).until(
         lambda d: button_available(d, continue_button_ID)
     )
+
     continue_button.click()
-    password_box = driver.find_element(By.ID, "bdd-password")
+
+    password_box_ID = "bdd-password" # UNICAMENTE SCOPUS
+    password_box = driver.find_element(By.ID, password_box_ID)
     password_box.send_keys(password)
-    log_in_button = driver.find_element(By.ID, "bdd-elsPrimaryBtn")
+
+    log_in_button_ID = "bdd-elsPrimaryBtn" # UNICAMENTE SCOPUS
+    log_in_button = driver.find_element(By.ID, log_in_button_ID) # Puede que sea mejor esperar
     log_in_button.click()
 
 
 def button_available(driver, button_ID):
-    # Comprobación si un botón está disponible
+    # Encuentra un boton, usado para las esperas
     return driver.find_element(By.ID, button_ID).is_enabled()
 
 
 def obtain_data(urls, credentials):
-    # Obtención de los datos mediante web-scraping
+    # Metodo principal para correr selenium
 
     # Credenciales de SCOPUS
-    conf_file = open("selenium_conf.json")
+    conf_file = open("selenium_conf.json") # UNICAMENTE SCOPUS ya que por ahora ese .json solo tiene Xpaths de SCOPUS
     conf_data = json.load(conf_file)
 
-    # URL para logear
+    # URL de logeo
     log_url = conf_data["login_url"]
 
-    # Datos a buscar
+    # DATA REQUERIDA
     headers = [
         "Autores",
         "Titulo",
@@ -70,10 +86,10 @@ def obtain_data(urls, credentials):
         "DOI_Enlace_texto_completo",
     ]
 
-    # Direcciones de los datos
+    # Xpaths de cada header
     Xpaths = conf_data["XPATHS"]
 
-    # Salida
+    # Diccionario de salida
     output = {
         "Autores": [],
         "Titulo": [],
@@ -91,33 +107,35 @@ def obtain_data(urls, credentials):
         "DOI_Enlace_texto_completo": [],
     }
 
-    # Abrimos el navegador
+    # Abre el navegador
     driver = open_nav()
 
-    # Logeamos en SCOPUS
+    # Logeo para SCOPUS
     log_in(driver, log_url, credentials["email"], credentials["password"])
 
-    # Creamos registro
+    # Inicio de registro de actividad
     register_log(
         "----------------------------------------------------------------\nINICIO DE REGISTRO\n----------------------------------------------------------------\n\n",
         True,
     )
 
-    # Obtenemos los datos
+    # Loop principal
     for i in range(len(urls)):
-        register_progress(i+1, len(urls))
+        register_progress(i+1, len(urls)) # Registro de progreso
         url = urls[i]
         driver.get(url)
 
-        # Abrimos la pestaña de 'ver más'
+        # Pestaña "ver más"
+        view_more_button_ID = "show-additional-source-info" # UNICAMENTE SCOPUS
         view_more_button = WebDriverWait(driver, timeout=10).until(
-            lambda d: d.find_element(By.ID, "show-additional-source-info")
+            lambda d: d.find_element(By.ID, view_more_button_ID)
         )
         view_more_button.click()
 
+        # Indices para busqueda de datos situacionalmente para cuando hay variacion de Xpath
         j = 0
-
         xpath_ind = 0
+
         while j < len(headers):
             head = headers[j]
 
@@ -132,58 +150,67 @@ def obtain_data(urls, credentials):
                     if title_view_more.text != "Original language":
                         raise TimeoutException
 
-                # Buscamos el elemento conteniendo el dato
+                # Obtencion general
                 data_element = WebDriverWait(driver, timeout=2).until(
                     lambda d: d.find_element(By.XPATH, Xpaths[head][xpath_ind])
                 )
 
-                # Tomamos el texto del elemento
+                # Dato
                 data = data_element.text
+
             except TimeoutException:
                 # Excepción cuando no se encuentra el elemento en el tiempo esperado
 
-                if head == "DOI_Enlace_texto_completo":
+                if head == "DOI_Enlace_texto_completo": # Si no hay DOI, usamos la url
                     data = url
                 else:
-                    # Iteramos sobre las distintas ubicaciones que puede tener el elemento y que están registradas en el .json
+                    # Iteramos sobre los distintos Xpath del elemento registrados en el .json
                     if xpath_ind < len(Xpaths[head]) - 1:
                         xpath_ind += 1
                         continue
+
                     # No se encontró completamente el elemento
-                    #print(f"\n\tNO ENCONTRADO\n{head}:\n{url}\n")
                     data = "No Encontrado"
-                    # Registramos el fallo de busqueda
+
+                    # Registro del fallo
                     register_log(
                         f"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nDATO: <{head}> NO ENCONTRADO EN:\n {url}\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n\n"
                     )
-            # Agregamos el dato al output
+
+            # Se agrega el dato
             output[head].append(data)
             j += 1
             xpath_ind = 0
-        if i % 10 == 0:
-            # Registro de busqueda
+
+        if i % 10 == 0: # Se puede variar la iteracion del backup pero hay que tener en cuenta el rendimiento
+            # Backup
             pd.DataFrame(output).to_csv("selenium_outputs/BACKUP.csv")
+            # Registro de actividad
             register_log(
                 f"||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n\tBACKUP REALIZADO\n\tULTIMA URL:\n\t {url}\n||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n\n"
             )
 
-    driver.close()
+    driver.close() # Se cierra selenium
+    # Registro de actividad
     register_log(
         "----------------------------------------------------------------\n\tFIN DE REGISTRO\n----------------------------------------------------------------\n\n"
     )
+
+    # Registro de progreso mayor que 100 para terminar el thread secundario
     register_progress(len(urls)+1, len(urls))
+
     return output
 
 
 def register_log(text, first=False):
-    # Función para guardar el registro de funcionamiento del bot
+    # Registro de actividad
     mode = "w" if first else "a"
     log_file = open("./selenium_outputs/log.out", mode)
     log_file.write(text)
     log_file.close()
 
 def register_progress(progress, maximum):
-    # Función para guardar el progreso de la busqueda
+    # Registro de progreso
     progress_file = open("./selenium_outputs/progress.out", "w")
     progress_file.write(str(100*progress/maximum))
     progress_file.close()

@@ -3,22 +3,40 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Dialogs
 
+/*
+    UI basica en formato qml (en un futuro tal vez serio mejor usar html y css para ser compatible en web)
+
+    Update Notes:
+    - v0.1.0: Se aplico un diseño basico con los siguientes componentes:
+        * Titulo
+        * Logo EAFIT (con direccionamiento a la website de la universidad)
+        * Implementacion basica de inputs (archivo de entrada, directorio de salida, credenciales y base de datos)
+        * Registro de actividad de Selenium
+        * Barra de progreso
+        * Boton de exportacion de backup (supone que existe un backup !posibles bugs!)
+    
+    La paleta de colores seleccionada no tiene sentido ya que se priorizo uso sobre estetica (MODIFICAR)
+*/
+
 ApplicationWindow{
     visible: true
     width: 900
     height: 800
     title: "Bibliometría"
 
-    property int unit: 20
+    property int unit: 20 // Unidad de separacion de los bloques (REVISAR)
 
-    property real progressValue: 50.0
+    property real progressValue: 50.0 // La inicializacion no importa ya que la barra no es visible hasta iniciar
 
-    property string inputFile
-    property string outputFolder
-    property string dataBase
+    // INPUTS
+    property string inputFile // URLS
+    property string outputFolder // Directorio
+    property string dataBase // Base de datos
+        // Credenciales
     property string email
     property string password
 
+    // Boolean Inputs (para activar el boton de obtencion)
     property bool bInputFile: false
     property bool bOutputFolder: false
     property bool bDataBase: false
@@ -32,6 +50,7 @@ ApplicationWindow{
         color: "#c0c0c0"
 
         Image {
+            // Logo de EAFIT
             sourceSize.width: parent.width/10
             sourceSize.height: parent.height/10
             source: "./images/EafitLogo.png"
@@ -46,14 +65,14 @@ ApplicationWindow{
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    window.webpage()
+                    window.webpage() // Direcciona a la webpage de la universidad
                 }
             }
         }
 
         Text {
             id:title
-            text: "Obtención y Normalización"
+            text: "Obtención y Normalización" // Titulo sujeto a cambios
             font.pixelSize: 36
             font.bold: true
             color: "black"
@@ -65,6 +84,7 @@ ApplicationWindow{
         }
 
         Text {
+            // Version
             text: "Versión: 0.1.0"
             font.italic: true
             font.pixelSize: 12
@@ -110,7 +130,7 @@ ApplicationWindow{
                         dataBase = currentValue
                         bDataBase = true
                     }
-                    model: ["Seleccionar", "SCOPUS"]
+                    model: ["Seleccionar", "SCOPUS"] // Futuras bases de datos: ["LENS", "SCIELO", "WOS", "DIMENSIONS"]
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
 
@@ -127,12 +147,13 @@ ApplicationWindow{
                 }
 
                 Button {
+                    // InputFile
                     id: fn
                     implicitHeight: 1.5*unit
                     implicitWidth: 10*unit
                     text: "Seleccionar"
                     font.pixelSize: 18
-                    onClicked: f_dialog.open()
+                    onClicked: f_dialog.open() // Abre ventana del OS para seleccionar el archivo
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
 
@@ -197,7 +218,7 @@ ApplicationWindow{
                             password = text
                             bPassword = true
                         }
-                        echoMode: TextInput.Password
+                        echoMode: TextInput.Password // Protejer la contraseña
                         anchors {
                             left: emailBox.left
                             top: emailBox.bottom
@@ -219,12 +240,13 @@ ApplicationWindow{
                 }
 
                 Button {
+                    // Directorio de salida
                     id: fold_button
                     implicitHeight: 1.5*unit
                     implicitWidth: 10*unit
                     text: "Seleccionar"
                     font.pixelSize: 18
-                    onClicked: folder_dialog.open()
+                    onClicked: folder_dialog.open() // Abre ventana del OS para seleccionar la carpeta de salida
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
 
@@ -239,14 +261,16 @@ ApplicationWindow{
                     font.pixelSize: 18
 
                     enabled: {
+                        // Obliga a llenar todos los inputs
                         if (bDataBase && bInputFile && bOutputFolder && bEmail && bPassword) return true
                         else return false
                     }
                     
                     onClicked: {
+                        // Proceso principal de obtencion de datos
                         window.main_process(inputFile, dataBase, outputFolder, email, password)
-                        runButton.enabled = false
-                        progressBar.visible = true
+                        runButton.enabled = false // Desactiva el boton para evitar bugs
+                        progressBar.visible = true // activamos la barra de progreso
                     }
 
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -262,6 +286,7 @@ ApplicationWindow{
                 }
 
                 Button {
+                    // exportar obtenidos
                     id: exportButton
                     text: "Exportar"
                     visible: false
@@ -274,6 +299,7 @@ ApplicationWindow{
             }
 
             Rectangle {
+                // Registro de actividad
                 border.color: "#00001c"
                 border.width: unit
                 anchors {
@@ -290,7 +316,7 @@ ApplicationWindow{
 
                     TextEdit {
                         id: logLabel
-                        text: "Registro"
+                        text: "Registro" // No muestra este texto PRIORIDAD: BAJA
                         readOnly: true
                         selectByMouse: true
                         wrapMode: Text.WordWrap
@@ -306,6 +332,7 @@ ApplicationWindow{
                 font.pixelSize: 12
 
                 enabled: {
+                    // Solo algunos inputs son necesarios (puede ocurrir el error de que la base de datos no corresponda al backup REVISAR) PRIORIDAD: MEDIA
                     if (bDataBase && bOutputFolder) return true
                     else return false
                 }
@@ -325,16 +352,18 @@ ApplicationWindow{
 
     Connections {
         target: window
+        // Señales de PyQt6
 
         function onUpdated(msg) {
-            logLabel.text = msg
+            logLabel.text = msg // Registro de actividad
         }
 
         function onProgress(msg) {
-            progressValue = msg
+            progressValue = msg // Registro de progreso
         }
 
         function onFinishedSearching(msg) {
+            // Registro de finalizacion
             exportButton.visible = msg
             progressBar.visible = !msg
         }
@@ -342,21 +371,23 @@ ApplicationWindow{
     }
 
     FileDialog {
+        // Seleccion de inputFile
         id: f_dialog
         nameFilters: ["Text files(*.txt)"]
         onAccepted: {
             inputFile = f_dialog.currentFile
             bInputFile = true
-            fn.text = inputFile.split("/").reverse()[0]
+            fn.text = inputFile.split("/").reverse()[0] // Se muestra solo el nombre del archivo
         }
     }
 
     FolderDialog {
+        // Seleccion de outputFolder
         id: folder_dialog
         onAccepted: {
             outputFolder = folder_dialog.currentFolder
             bOutputFolder = true
-            fold_button.text = outputFolder.split("/").reverse()[0]
+            fold_button.text = outputFolder.split("/").reverse()[0] // Se muestra solo el nombre del directorio
         }
     }
 }

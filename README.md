@@ -15,6 +15,7 @@ Recolección, normalización y unificación de datos bibliográficos usando un b
   - [Uso](#uso)
     - [Instalación](#instalación)
     - [Manejo](#manejo)
+  - [Problemas Conocidos](#problemas-conocidos)
 
 ## Descripciones
 
@@ -100,3 +101,9 @@ Cuando se de por terminado la obtención de datos, observará la barra de progre
 
 - Reiniciar el programa y volver a iniciar la obtención de datos.
 - Dar click en `Exportar Backup`, con lo que se exportarán los datos obtenidos hasta donde logró el programa, siendo el último registro el mencionado en el panel derecho. Luego, reinicie el programa e introduzca los links que faltaron anteriormente. **Nota:** Tenga en cuenta que el backup se exportará con el nombre `Data.*`, por lo que si no cambia el nombre manualmente antes de que el programa termine de correr por segunda vez, los datos se sobreescribiran.
+
+## Problemas Conocidos
+
+- En `main.qml` linea 319 (TextEdit del registro de actividad), no se muestra el texto "Registro" ingresado (texto default). **PRIORIDAD: BAJA** (no afecta el funcionamiento de la aplicación).
+- En `main.qml` lineas 329-349 (Button de exportación de backup), cuando se ingresen multiples bases de datos, la seleccionada puede no corresponder a la del backup lo que llevaria a un posible fallo total. **PRIORIDAD: MEDIA** (todavia no se implementan otras bases de datos).
+- En `main.qml` lineas 329-349 (Button de exportación de backup), suponemos que existe un backup el cual se sobreescribe cada vez que se realiza una busqueda. En caso de que, por alguna razón, el backup sea borrado, se puede incurrir en un error. **PRIORIDAD: MEDIA** (poca probabilidad de ocurrir).

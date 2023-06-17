@@ -4,7 +4,22 @@ import pandas as pd
 import sys
 import os
 
+"""
+    Métodos de extracción y normalización diferenciados por base de datos.
+
+    Update Notes:
+    - v0.1.0: Registrada unicamente la base de datos "Scopus"
+    para extracción y normalización.
+"""
+
 def Search_Data(data_base, filename, credentials):
+    """
+        Extrae datos bibliográficos de un conjunto de links/urls
+        ingresados desde la interfaz grafica.
+
+        Diferencia la base de datos de donde obtener los datos
+        y se normaliza de acuerdo a esta.
+    """
     # Extraemos las urls
     urls_file = open(filename, "r")
     urls = urls_file.read().split("\n")
@@ -40,6 +55,10 @@ def Search_Data(data_base, filename, credentials):
     return outputData
 
 def Export_Backup(data_base, outputFolder):
+    """
+        Normaliza y exporta el backup en selenium_outputs/BACKUP.csv
+        de acuerdo a la base de datos seleccionada en la UI.
+    """
     backupData = pd.read_csv('selenium_outputs/BACKUP.csv', sep=',').to_dict()
     match data_base:
             case "LENS":
@@ -65,6 +84,9 @@ def Export_Backup(data_base, outputFolder):
     Export(outputData, outputFolder)
 
 def Export(data, outputFolder):
+    """
+        Exporta data en forma de diccionario a .csv y .xlsx
+    """
     # Convertimos a DataFrame
     outputData = pd.DataFrame(data)
 
