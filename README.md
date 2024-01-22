@@ -1,6 +1,6 @@
 # Bibliometria
 
-Versión: 0.1.0
+Versión: 1.1.0
 
 ****
 
@@ -21,21 +21,25 @@ Recolección, normalización y unificación de datos bibliográficos usando un b
 
 ****
 
+- **`Bibliometría - Obtención y Unificación-SetupFiles/Bibliometría - Obtención y Unificación.msi`:** Instalador del programa
 - **`selenium_outputs/BACKUP.csv`:** Archivo de respaldo donde se guardan los últimos datos recolectados por el bot en caso de un paro total.
 - **`selenium_outputs/log.out`:** Archivo de registro del proceso de web scraping donde se muestra el registro de respaldos y de errores presentados.
+- **`Test Urls LENS/test_urls_LENS.txt`:** Archivo input de ejemplo para testeo del programa(Link solo de la base de datos LENS).
+- **`Test Urls SCOPUS/test_urls_SCOPUS.txt`:** Archivo input de ejemplo para testeo del programa(Link solo de la base de datos SCOPUS).
 - **`UI/main.qml`:** Archivo principal de la interfaz gráfica.
+- **`Bibliometría - Obtención y Unificación.aip`:** Archivo de configuración para crear el instalador mediante Advanced Installer.
 - **`main.py`:** Script de ejecución principal encargado de conectar la aplicación de escritorio con los scripts de python.
 - **`main.spec`:** Archivo de configuración para la construcción de la aplicación mediante pyInstaller.
 - **`main_program.py`:** Script con las funciones y algoritmos para llamar los procedimientos de obtención y normalización de datos, además de los procesos de exportación de los datos.
-- **`selenium_methods.py`:** Script con las funciones y algoritmos generales para realizar web scraping mediante la libreria Selenium.
 - **`norm_methods.py`:** Script con las funciones y algoritmos para normalizar los datos obtenidos mediante web-scraping.
-- **`selenium_conf.json`:** Archivo con los datos de logeo y direcciones Xpaths para la extracción de la información.
-- **`Bibliometría - Obtención y Unificación.aip`:** Archivo de configuración para crear el instalador mediante Advanced Installer.
-- **`test_urls.txt`:** Archivo input de ejemplo para testeo del programa.
+- **`progress_register.py`:** Script con las funciones y algoritmos para informar el avance a través de la barra de progreso del proceso de web scrapping.
+- **`selenium_conf_LENS.json`:** Archivo con los datos de logeo y direcciones Xpaths para la extracción de la información correspondiente a la base de datos LENS.
+- **`selenium_conf_SCOPUS.json`:** Archivo con los datos de logeo y direcciones Xpaths para la extracción de la información correspondiente a la base de datos SCOPUS.. 
+- **`selenium_methods_LENS.py`:** Script con las funciones y algoritmos para realizar web scraping para la base de datos LENS mediante la libreria Selenium.
+- **`selenium_methods_SCOPUS.py`:** Script con las funciones y algoritmos para realizar web scraping para la base de datos SCOPUS mediante la libreria Selenium.
 - **`Data.xlsx`:** Archivo de excel con los datos de salida normalizados.
 - **`output.csv`:** Archivo en formato csv con los datos de salida normalizados.
 - **`outputRAW.csv`:** Archivo en formato csv con los datos de salida sin normalizar.
-- **`Bibliometría - Obtención y Unificación-SetupFiles/Bibliometría - Obtención y Unificación.msi`:** Instalador del programa
 
 ## Librerias
 
@@ -107,3 +111,4 @@ Cuando se de por terminado la obtención de datos, observará la barra de progre
 - En `main.qml` linea 319 (TextEdit del registro de actividad), no se muestra el texto "Registro" ingresado (texto default). **PRIORIDAD: BAJA** (no afecta el funcionamiento de la aplicación).
 - En `main.qml` lineas 329-349 (Button de exportación de backup), cuando se ingresen multiples bases de datos, la seleccionada puede no corresponder a la del backup lo que llevaria a un posible fallo total. **PRIORIDAD: MEDIA** (todavia no se implementan otras bases de datos).
 - En `main.qml` lineas 329-349 (Button de exportación de backup), suponemos que existe un backup el cual se sobreescribe cada vez que se realiza una busqueda. En caso de que, por alguna razón, el backup sea borrado, se puede incurrir en un error. **PRIORIDAD: MEDIA** (poca probabilidad de ocurrir).
+- Con la introducción de la última actualización en la base de datos Lens, que incorpora un sistema de verificación de bots más estricto, hemos identificado un problema que afecta la capacidad de Selenium para capturar datos de manera efectiva.  **PRIORIDAD: ALTA** (Tratar de corregir los más pronto posible).
