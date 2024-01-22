@@ -1,5 +1,8 @@
-import selenium_methods as sm
+import selenium_methods_SCOPUS as scopus
+import selenium_methods_LENS as lens
+
 import norm_methods as norm
+
 import pandas as pd
 import sys
 import os
@@ -27,22 +30,28 @@ def Search_Data(data_base, filename, credentials):
 
     match data_base:
             case "LENS":
-                # Falta registrar la base de datos
-                outputData = {}
+                # Extraemos los datos usando selenium_methods_LENS
+                urls_data = lens.obtain_data_LENS(urls)
+
+                # Exportamos los datos crudos
+                pd.DataFrame(urls_data).to_csv("outputRAW.csv")
+
+                # Normalizamos los datos2
+                outputData = norm.lens(urls_data)
 
             case "SCIELO":
                 # Falta registrar la base de datos
                 outputData = {}
             
             case "SCOPUS":
-                # Extraemos los datos usando selenium_methods
-                urls_data = sm.obtain_data(urls, credentials)
+                # Extraemos los datos usando selenium_methods_SCOPUS
+                urls_data = scopus.obtain_data_SCOPUS(urls, credentials)
 
                 # Exportamos los datos crudos
                 pd.DataFrame(urls_data).to_csv("outputRAW.csv")
 
                 # Normalizamos los datos
-                outputData = norm.scopus(urls_data)
+                outputData = norm.scopus(urls_data, data_base)
 
             case "WOS":
                 # Falta registrar la base de datos
@@ -62,8 +71,9 @@ def Export_Backup(data_base, outputFolder):
     backupData = pd.read_csv('selenium_outputs/BACKUP.csv', sep=',').to_dict()
     match data_base:
             case "LENS":
-                # Falta registrar la base de datos
-                outputData = {}
+                
+                # Normalizamos los datos
+                outputData = norm.scopus(backupData)
 
             case "SCIELO":
                 # Falta registrar la base de datos
