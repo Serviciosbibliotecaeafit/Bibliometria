@@ -108,7 +108,7 @@ Cuando se de por terminado la obtención de datos, observará la barra de progre
 
 ## Problemas Conocidos
 
-- En `main.qml` linea 319 (TextEdit del registro de actividad), no se muestra el texto "Registro" ingresado (texto default). **PRIORIDAD: BAJA** (no afecta el funcionamiento de la aplicación).
-- En `main.qml` lineas 329-349 (Button de exportación de backup), cuando se ingresen multiples bases de datos, la seleccionada puede no corresponder a la del backup lo que llevaria a un posible fallo total. **PRIORIDAD: MEDIA** (todavia no se implementan otras bases de datos).
-- En `main.qml` lineas 329-349 (Button de exportación de backup), suponemos que existe un backup el cual se sobreescribe cada vez que se realiza una busqueda. En caso de que, por alguna razón, el backup sea borrado, se puede incurrir en un error. **PRIORIDAD: MEDIA** (poca probabilidad de ocurrir).
+- En `main.qml` linea 332 (TextEdit del registro de actividad), no se muestra el texto "Registro" ingresado (texto default). **PRIORIDAD: BAJA** (no afecta el funcionamiento de la aplicación).
+- En `main.qml` lineas 342-362 (Button de exportación de backup), cuando se ingresen multiples bases de datos, la seleccionada puede no corresponder a la del backup lo que llevaria a un posible fallo total. **PRIORIDAD: MEDIA** (todavia no se implementan otras bases de datos).
+- En `main.qml` lineas 342-362 (Button de exportación de backup), suponemos que existe un backup el cual se sobreescribe cada vez que se realiza una busqueda. En caso de que, por alguna razón, el backup sea borrado, se puede incurrir en un error. **PRIORIDAD: MEDIA** (poca probabilidad de ocurrir).
 - Con la introducción de la última actualización en la base de datos Lens, que incorpora un sistema de verificación de bots más estricto, hemos identificado un problema que afecta la capacidad de Selenium para capturar datos de manera efectiva.  **PRIORIDAD: ALTA** (Tratar de corregir los más pronto posible).
