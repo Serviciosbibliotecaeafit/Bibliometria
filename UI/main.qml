@@ -130,7 +130,7 @@ ApplicationWindow{
                         dataBase = currentValue
                         bDataBase = true
                     }
-                    model: ["Seleccionar", "SCOPUS"] // Futuras bases de datos: ["LENS", "SCIELO", "WOS", "DIMENSIONS"]
+                    model: ["Seleccionar", "SCOPUS", "LENS"] // Futuras bases de datos: ["LENS", "SCIELO", "WOS", "DIMENSIONS"]
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
 
@@ -209,6 +209,8 @@ ApplicationWindow{
                         }
                     }
 
+
+
                     TextField {
                         id: passBox
                         placeholderText: "****************"
@@ -218,13 +220,24 @@ ApplicationWindow{
                             password = text
                             bPassword = true
                         }
-                        echoMode: TextInput.Password // Protejer la contraseña
+                        echoMode: showPassword.checked ? TextInput.Normal : TextInput.Password // Cambiar el echoMode al hacer clic en el CheckBox
                         anchors {
                             left: emailBox.left
                             top: emailBox.bottom
                             topMargin: unit/2
                         }
                     }
+
+                    CheckBox {
+                        id: showPassword
+                        text: "Mostrar"
+                        anchors {
+                            left: passBox.right
+                            leftMargin: unit
+                            verticalCenter: passBox.verticalCenter
+                        }
+                    }
+
                 }
 
                 Item {
