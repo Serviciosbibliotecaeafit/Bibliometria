@@ -4,19 +4,17 @@ import threading
 from time import sleep
 
 from main_program import Search_Data, Export, Export_Backup
-import selenium_methods as sm
-import norm_methods as norm
-import pandas as pd
+
 
 from PyQt6.QtQml import QQmlApplicationEngine
 from PyQt6.QtCore import QObject, pyqtSlot, pyqtSignal
-from PyQt6.QtWidgets import QApplication
+from PyQt6.QtWidgets import QApplication, QMessageBox
 
 """
     UI usando PyQt6 y QtQml.
 
     Update Notes:
-    - v0.1.0: UI básica con la única base de datos registrada hasta el momento,
+    - v1.1.0: UI básica con la base de datos SCOPUS y LENS registrada hasta el momento,
     esta incluye las siguientes características en forma de señales Qml->PyQt6:
         * Boton logo EAFIT
         * Boton de main_process que pasa 5 str
@@ -59,7 +57,7 @@ class Window(QObject):
             - data_base: Nombre de la base de datos de los datos
             (hasta el momento el usuario no puede seleccionar bases de datos no registradas, tener cuidado)
             - outputFolder: Path al directorio de salida de los datos
-            - email: Primera credencial para acceder a la pagina web, tambien podría ser un nombre de usuario en otras bases de datos
+            - email: Primera credencial para acceder a la pagina web, tambien podría ser un nombre de usuario en otras bases de datos o incluso no ser necesario
             - password: Segunda credencial de acceso (!TENER CUIDADO CON LA PRIVACIDAD DEL USUARIO!)
         """
         self.filename = inputFile.split("///")[1]
@@ -74,6 +72,7 @@ class Window(QObject):
         self.bootUp() # Ejecutamos el deamon thread para registro de actividad y procesos secundarios
         main_thread = threading.Thread(target=self._main_process)
         main_thread.start()
+        
 
 
     def _main_process(self):
@@ -85,6 +84,16 @@ class Window(QObject):
     def export(self):
         # Exportacion de datos obtenidos
         Export(self.obtainedData, self.outputFolder)
+
+        # Mensaje de finalizacion
+
+        msg = QMessageBox()
+        msg.setWindowTitle("Mensaje")
+        msg.setText("Exportado Correctamente")
+        msg.setIcon(QMessageBox.Icon.Information)
+
+        # Mostrar el cuadro de diálogo de mensaje
+        msg.exec()    
 
     
     # Registros
