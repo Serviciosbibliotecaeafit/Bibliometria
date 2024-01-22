@@ -1,0 +1,57 @@
+{
+    "XPATHS"    :   {
+        "Autores": [
+            "/html/body/div[3]/section/section/div/div/section/div[1]/main/div/div[2]/div[1]/ul", 
+            "/html/body/div[3]/section/section/div/div/header/div[1]/div/header/div/div[1]/ul/li[4]"
+        ],
+        "Titulo": [
+            "/html/body/div[3]/section/section/div/div/header/div[1]/div/header/div/div[1]/h3/a"
+        ],
+        "Nombre_Publicacion": [
+            "/html/body/div[3]/section/section/div/div/section/div[1]/aside/div/div[1]/ul/li[1]/span[1]"
+
+        ],
+        "Tipo_Documento": [
+            "/html/body/div[3]/section/section/div/div/section/div[1]/aside/div/div[1]/ul/li[3]/span",
+            "/html/body/div[3]/section/section/div/div/section/div[1]/aside/div/div[1]/ul/li[2]/span"
+        ],
+
+        "Campo_De_Estudio": [
+            "/html/body/div[3]/section/section/div/div/section/div[1]/main/div/div[2]/div[4]/ul",
+            "/html/body/div[3]/section/section/div/div/section/div[1]/main/div/div[2]/div[3]/ul",
+            "/html/body/div[3]/section/section/div/div/section/div[1]/main/div/div[2]/div[5]/ul"
+        ],
+
+        "Resumen": [
+           "/html/body/div[3]/section/section/div/div/section/div[1]/main/div/div[1]/span[1]"
+        ],
+        "Filiacion_Autor": [
+           "/html/body/div[3]/section/section/div/div/section/div[1]/main/div/div[2]/div[2]/ol"
+        ],
+        "Total_Citas": [
+           "/html/body/div[3]/section/section/div/div/header/div[1]/div/header/div/div[1]/ul/li[7]/a",
+           "/html/body/div[3]/section/section/div/header/div[1]/div/header/div/div[1]/ul/li[7]/a",
+           "/html/body/div[3]/section/section/div/div/header/div[1]/div/header/div/div[1]/ul/li[7]/span"
+        ],
+
+        "Ano": [
+            "/html/body/div[3]/section/section/div/div/section/div[1]/aside/div/div[1]/ul/li[2]/span[1]",
+            "/html/body/div[3]/section/section/div/div/section/div[1]/aside/div/div[1]/ul/li[1]/span[1]"
+        ],
+
+        "Volumen": [
+            "/html/body/div[3]/section/section/div/div/section/div[1]/aside/div/div[1]/ul/li[1]/span[3]",
+            "/html/body/div[3]/section/section/div/div/header/div[1]/div/header/div/div[1]/ul/li[3]/span[2]"
+        ],
+        "Numero": [
+            "/html/body/div[3]/section/section/div/div/section/div[1]/aside/div/div[1]/ul/li[1]/span[2]",
+            "/html/body/div[3]/section/section/div/div/header/div[1]/div/header/div/div[1]/ul/li[3]/span[3]"
+        ],
+        "Enlace_texto_completo": [
+            "/html/body/div[3]/section/section/div/div/section/div[1]/aside/div/div[3]/div[2]/ul/li[1]/a/span"
+        ],
+        "AUX_XPATH": [
+           "/html/body/div[3]/section/section/div/section"
+        ]
+    }
+}

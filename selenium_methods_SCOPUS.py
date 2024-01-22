@@ -3,28 +3,25 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support import expected_conditions as EC
+
+from progress_register import register_log, register_progress
 
 import json
 import pandas as pd
-
 """
     Obtencion de datos usando Selenium y Xpaths, puede que este método de ubicación no sea el más eficiente pero sí el más efectivo, ya que los datos en su mayoria no poseen IDs por si solos.
 
     Update Notes:
-    - v0.1.0: Enfocado unicamente en la base de datos SCOPUS pero facilmente replicable (no reutilizable) para otras.
+    - v1.1.0: Enfocado unicamente en la base de datos SCOPUS pero facilmente replicable (no reutilizable) para otras.
 """
-
-# opciones del navegador
-options = Options()
-options.add_argument("--no-sandbox")
-options.add_argument("--disable-gpu")
-options.add_argument("--disable-dev-shm-usage")
-# se mantiene visible para evitar bloqueos
 
 def open_nav():
     # Abre el navegador (usamos firefox por compatibilidad con pyInstaller)
-    return webdriver.Firefox('./driver/', options=options)
+    return webdriver.Firefox()
 
+
+# TODOS LOS METODOS UTLIZADOS SOLO PARA SCOPUS
 
 def log_in(driver, log_url, email, password):
     # Logea a la base de datos utilizando las credenciales del usuario
@@ -55,14 +52,14 @@ def log_in(driver, log_url, email, password):
 
 def button_available(driver, button_ID):
     # Encuentra un boton, usado para las esperas
-    return driver.find_element(By.ID, button_ID).is_enabled()
+    return driver.find_element(By.ID, button_ID).is_enabled()        
 
 
-def obtain_data(urls, credentials):
+def obtain_data_SCOPUS(urls, credentials):
     # Metodo principal para correr selenium
 
     # Credenciales de SCOPUS
-    conf_file = open("selenium_conf.json") # UNICAMENTE SCOPUS ya que por ahora ese .json solo tiene Xpaths de SCOPUS
+    conf_file = open("selenium_conf_SCOPUS.json") # UNICAMENTE SCOPUS ya que por ahora ese .json solo tiene Xpaths de SCOPUS
     conf_data = json.load(conf_file)
 
     # URL de logeo
@@ -200,17 +197,3 @@ def obtain_data(urls, credentials):
     register_progress(len(urls)+1, len(urls))
 
     return output
-
-
-def register_log(text, first=False):
-    # Registro de actividad
-    mode = "w" if first else "a"
-    log_file = open("./selenium_outputs/log.out", mode)
-    log_file.write(text)
-    log_file.close()
-
-def register_progress(progress, maximum):
-    # Registro de progreso
-    progress_file = open("./selenium_outputs/progress.out", "w")
-    progress_file.write(str(100*progress/maximum))
-    progress_file.close()
