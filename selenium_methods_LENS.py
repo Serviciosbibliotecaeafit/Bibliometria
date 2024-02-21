@@ -23,6 +23,29 @@ def open_nav():
 
 # METODOS UTLIZADOS SOLO PARA LENS
 
+def log_in(driver, log_url, email, password):
+
+    # Logea a la base de datos utilizando las credenciales del usuario
+    driver.get(log_url)
+
+    email_box_ID = "username" # UNICAMENTE LENS
+    email_box = driver.find_element(By.ID, email_box_ID)
+    email_box.send_keys(email)
+
+    password_box_ID = "password" # UNICAMENTE LENS
+    password_box = driver.find_element(By.ID, password_box_ID)
+    password_box.send_keys(password)
+
+    password_box_ID = "/html/body/div/div/div[1]/div/label/input" # UNICAMENTE LENS
+    password_box = driver.find_element(By.XPATH, password_box_ID)
+    password_box.click()
+
+    log_in_button_ID = "signin" # UNICAMENTE SCOPUS
+    log_in_button = driver.find_element(By.ID, log_in_button_ID) # Puede que sea mejor esperar
+    log_in_button.click()
+    driver.implicitly_wait(5)
+
+
 def get_references(driver):
     # UNICAMENTE LENS
     # Encuentra los elementos de las referencias citadas
@@ -30,11 +53,14 @@ def get_references(driver):
     return driver.find_elements(By.CSS_SELECTOR, "h3.listing-result-title")
 
 
-def obtain_data_LENS(urls):
+def obtain_data_LENS(urls, credentials):
 
     # Credenciales de LENS
     conf_file = open("selenium_conf_LENS.json")
     conf_data = json.load(conf_file)
+
+    # URL de logeo
+    log_url = conf_data["login_url"]
 
     # DATA REQUERIDA
     headers = [
@@ -75,6 +101,9 @@ def obtain_data_LENS(urls):
 
     # Abre el navegador
     driver = open_nav()
+
+    # Logeo para LENS
+    #log_in(driver, log_url, credentials["email"], credentials["password"])
 
     # Inicio de registro de actividad
     register_log(

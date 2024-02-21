@@ -31,7 +31,7 @@ def Search_Data(data_base, filename, credentials):
     match data_base:
             case "LENS":
                 # Extraemos los datos usando selenium_methods_LENS
-                urls_data = lens.obtain_data_LENS(urls)
+                urls_data = lens.obtain_data_LENS(urls, credentials)
 
                 # Exportamos los datos crudos
                 pd.DataFrame(urls_data).to_csv("outputRAW.csv")

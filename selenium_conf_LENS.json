@@ -1,4 +1,5 @@
 {
+    "login_url" :"https://www.lens.org/lens/user/login",
     "XPATHS"    :   {
         "Autores": [
             "/html/body/div[3]/section/section/div/div/section/div[1]/main/div/div[2]/div[1]/ul", 
